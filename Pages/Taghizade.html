@@ -17,189 +17,210 @@
         <!-- style of html -->
         <style>
             @font-face {
-                font-family: 'CustomFont';
-                src: url('https://raw.githubusercontent.com/sarvari1378/Files/main/Vazirmatn-Regular.woff2') format('woff2');
+            font-family: 'CustomFont';
+            src: url('https://raw.githubusercontent.com/sarvari1378/Files/main/Vazirmatn-Regular.woff2') format('woff2');
             }
+
             body {
-                font-family: 'CustomFont', sans-serif;
+            font-family: 'CustomFont', sans-serif;
+            background-color: #202020 !important;
+            color: #FFD700;
             }
+
             /* Action & Tab Button Animation */
-            .action-button, .tab-button, .icon-button {
-                transition: transform 0.2s ease-in-out, background-color 0.3s ease;
+            .action-button,  .icon-button {
+            transition: transform 0.2s ease-in-out, background-color 0.3s ease;
             }
+
+            .tab-button {
+                color: #FFD700;
+            }
+
             .action-button.clicked, .icon-button.clicked {
-                transform: scale(1.1);
-                background-color: #38a169;
-                color: white;
-                border: 2px solid white;
+            transform: scale(1.1);
+            background-color: #FFD700;
+            color: #FFD700;
+            border: 2px solid white;
             }
+
             .tab-button:hover {
-                color: #38a169;
-                transform: scale(1.1);
+            color: #ff7b00;
+            transform: scale(1.1);
             }
+
             /* Tabs Layout */
             .tabs-container {
-                overflow-x: auto;
-                white-space: nowrap;
-                display: flex;
-                gap: 1rem;
-                padding-bottom: 0.5rem;
+            overflow-x: auto;
+            white-space: nowrap;
+            display: flex;
+            gap: 1rem;
+            padding-bottom: 0.5rem;
             }
+
             .tabs-container::-webkit-scrollbar {
-                display: none;
+            display: none;
             }
+
             .tab {
-                padding: 0.5rem 1rem;
-                text-decoration: none;
-                color: #4a5568;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            color: #FFD700;
             }
+
             .tab-content {
-                display: none;
-                padding: 1rem;
-                background: #f9f9f9;
-                border-radius: 0.5rem;
-                margin-top: 1rem;
+            display: none;
+            padding: 1rem;
+            background: #1a1a1a;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            color: #FFD700;
             }
+
             .active-tab {
-                display: block;
+            display: block;
             }
+
             #Quran.active-tab {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center; 
+            justify-content: center;
             text-align: center;
-            min-height: 100vh;    
-            gap: 20px;   
+            min-height: 100vh;
+            gap: 20px;
             }
 
             #Prays.active-tab {
             display: flex;
             flex-direction: row-reverse;
             align-items: center;
-            justify-content: center; 
-            text-align: center; 
-            gap: 20px;   
+            justify-content: center;
+            text-align: center;
+            gap: 20px;
             }
 
             /* Gallery Styles */
             .gallery {
-              position: relative;
-              width: 90%;
-              max-width: 600px;
-              aspect-ratio: 3 / 2;
-              margin: 20px auto;
-              overflow: hidden;
-              border: 2px solid #ddd;
-              border-radius: 8px;
-              background: #000;
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            aspect-ratio: 3 / 2;
+            margin: 20px auto;
+            overflow: hidden;
+            border: 2px solid #FFD700;
+            border-radius: 8px;
+            background: #000;
             }
+
             .gallery img {
-              width: 100%;
-              height: 100%;
-              object-fit: contain;
-              display: block;
-              /* Ensure we start with no translation */
-              transform: translateX(0);
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            transform: translateX(0);
             }
-            /* Swipe Animation (applied via inline styles/classes in JS) */
+
             /* Dots Navigation */
-            /* ----- Gallery Dots (Green & White Theme) ----- */
             .gallery .dots {
-              position: absolute;
-              bottom: 10px;
-              left: 50%;
-              transform: translateX(-50%);
-              display: flex;
-              gap: 8px;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
             }
-            
+
             .gallery .dot {
-              width: 12px;
-              height: 12px;
-              background-color: white;
-              border: 2px solid #38a169; /* Green border */
-              border-radius: 50%;
-              cursor: pointer;
-              transition: background-color 0.3s ease, transform 0.3s ease;
+            width: 12px;
+            height: 12px;
+            background-color: #111;
+            border: 2px solid #FFD700;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
             }
-            
+
             .gallery .dot.active {
-              background-color: #38a169; /* Active dot becomes green */
-              transform: scale(1.2);
+            background-color: #FFD700;
+            transform: scale(1.2);
             }
-            
-            /* ----- Gallery Buttons (Green & White Theme) ----- */
+
+            /* Gallery Buttons */
             .gallery button {
-              position: absolute;
-              top: 50%;
-              transform: translateY(-50%);
-              background-color: #38a169; /* Green background */
-              color: white;
-              border: none;
-              width: 40px;
-              height: 40px;
-              border-radius: 50%;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              font-size: 20px;
-              cursor: pointer;
-              transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
-              z-index: 2;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #FFD700;
+            color: #111;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
+            z-index: 2;
             }
-            
+
             .gallery button:hover {
-              background-color: white;
-              color: #38a169;
-              border: 2px solid #38a169;
+            background-color: #111;
+            color: #FFD700;
+            border: 2px solid #FFD700;
             }
+
             .gallery .prev {
-              left: 10px !important;
+            left: 10px !important;
             }
+
             .gallery .next {
-              right: 10px !important;
+            right: 10px !important;
             }
-            
-            /* Spinner for loading images (gallery and non-gallery) */
+
+            /* Spinner for loading images */
             .spinner {
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
-              border: 4px solid #f3f3f3;
-              border-top: 4px solid #3498db;
-              border-radius: 50%;
-              width: 40px;
-              height: 40px;
-              animation: spin 1s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 4px solid #444;
+            border-top: 4px solid #FFD700;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
             }
+
             @keyframes spin {
-              0% { transform: translate(-50%, -50%) rotate(0deg); }
-              100% { transform: translate(-50%, -50%) rotate(360deg); }
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
             }
-            /* Container for non-gallery images with spinner */
+
+            /* Container for non-gallery images */
             .img-container {
-              position: relative;
-              display: inline-block;
+            position: relative;
+            display: inline-block;
             }
+
             .img-container img {
-              display: block;
+            display: block;
             }
+
             /* Footer Styles */
             footer {
-              margin-top: 2rem;
-              padding: 1rem;
-              background-color: #f1f1f1;
-              text-align: center;
-              font-size: 0.9rem;
-              color: #555;
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #1a1a1a;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #FFD700;
             }
 
             #Quran button {
-            /* Your specific styles here */
-            background-color: #4caf50;
-            color: white;
+            background-color: #FFD700;
+            color: #111;
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
@@ -207,44 +228,77 @@
             font-weight: bold;
             }
 
-
             .Praysbtn {
             padding: 12px 28px;
-            border-radius: 9999px; /* max roundness */
+            border-radius: 9999px;
             border: none;
             cursor: pointer;
             font-size: 16px;
             font-weight: 600;
-            color: rgb(0, 0, 0);
-            background: rgba(255, 255, 255, 0.15);
+            color: #FFD700;
+            background: rgba(255, 215, 0, 0.15);
             backdrop-filter: blur(8px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
             user-select: none;
             gap: 60px;
             }
 
             .Praysbtn:not(.active):hover {
-            color: #28a745;
-            background: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            color: #FFD700;
+            background: rgba(255, 215, 0, 0.25);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
             }
 
             .Praysbtn.active {
-            background-color: #28a745; /* bright green */
-            box-shadow: 0 0 12px #28a745cc; /* glowing green */
-            color: white;
+            background-color: #FFD700;
+            box-shadow: 0 0 12px #FFD700cc;
+            color: #111;
             }
 
             .right-column {
-                color: white;
-                display: flex;
-                flex-direction: column;
-                gap: 12px;
+            color: #FFD700;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
             }
 
         </style>
+ <!-- style of elements -->
+<style>
+    .video-container {
+      position: fixed;
+      bottom: 0;
+      width: 20vw;
+      height: auto;
+      pointer-events: none;
+    }
 
+    .cheragh-container {
+      position: fixed;
+      top: 0;
+      right: 1;
+      width: 20vw;
+      height: auto;
+      pointer-events: none;
+      transform: rotate(-90deg);
+      padding-top: 50px;
+    }
+
+
+    .video-left {
+      left: 0;
+    }
+
+    .video-right {
+      right: 0;
+    }
+
+    video {
+      width: 100%;
+      height: auto;
+    }
+  </style>
 
 
 
@@ -263,26 +317,26 @@
                 <div class="spinner"></div>
                 <img src="https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Arbabzade/Profile%20copy.jpg" alt="Profile" class="w-24 h-24 rounded-full border border-gray-300" onload="this.previousElementSibling.style.display='none'">
               </div>
-              <h1 class="text-xl font-bold mt-2">اختر ارباب زاده مظفری</h1>
+              <h1 class="text-xl font-bold mt-2 text-yellow-400">حاج کربلایی تقی زاده</h1>
             </div>
             
             <!-- Stats Section -->
-            <div class="bg-green-100 p-4 rounded-lg mt-6">
-              <div class="grid grid-cols-3 gap-4 text-green-900">
+            <div class="bg-gray-100 p-4 rounded-lg mt-6">
+              <div class="grid grid-cols-3 gap-4 text-gray-900">
                 <div class="p-4 rounded-lg flex flex-col items-center">
                   <p class="text-lg font-bold">متغییر اول</p>
                   <p class="text-2xl" id="quranPages">quranPages</p>
-                  <button onclick="increment('quranPages')" class="w-8 h-8 bg-white border-2 border-green-700 rounded-lg text-green-700 text-xl flex items-center justify-center action-button">+</button>
+                  <button onclick="increment('quranPages')" class="w-8 h-8 bg-white border-2 border-gray-700 rounded-lg text-gray-700 text-xl flex items-center justify-center action-button">+</button>
                 </div>
                 <div class="p-4 rounded-lg flex flex-col items-center">
                   <p class="text-lg font-bold">قرائت فاتحه</p>
                   <p class="text-2xl" id="fatihaCount">fatihaCount</p>
-                  <button onclick="increment('fatihaCount')" class="w-8 h-8 bg-white border-2 border-green-700 rounded-lg text-green-700 text-xl flex items-center justify-center action-button">+</button>
+                  <button onclick="increment('fatihaCount')" class="w-8 h-8 bg-white border-2 border-gray-700 rounded-lg text-gray-700 text-xl flex items-center justify-center action-button">+</button>
                 </div>
                 <div class="p-4 rounded-lg flex flex-col items-center">
                   <p class="text-lg font-bold">ذکر صلوات</p>
                   <p class="text-2xl" id="salawatCount">salawatCount</p>
-                  <button onclick="increment('salawatCount')" class="w-8 h-8 bg-white border-2 border-green-700 rounded-lg text-green-700 text-xl flex items-center justify-center action-button">+</button>
+                  <button onclick="increment('salawatCount')" class="w-8 h-8 bg-white border-2 border-gray-700 rounded-lg text-gray-700 text-xl flex items-center justify-center action-button">+</button>
                 </div>
               </div>
             </div>
@@ -363,11 +417,26 @@
 
             </div>
 
-            
+           <!-- ویدیوی سمت چپ -->
+            <div class="video-container video-left">
+                <video autoplay muted loop playsinline>
+                <source src="Sequence 01.webm" type="video/webm">
+                مرورگر شما از ویدیو پشتیبانی نمی‌کند.
+                </video>
+            </div>
+
+            <!-- ویدیوی سمت چپ -->
+            <div class="cheragh-container ">
+                <video autoplay muted loop playsinline>
+                <source src="Cheragh01.webm" type="video/webm">
+                مرورگر شما از ویدیو پشتیبانی نمی‌کند.
+                </video>
+            </div>
+
           
           <!-- Footer Section -->
           <footer>
-            <p>اگر مثل این صفحه رو برای عزیزت میخوای باهام تماس بگیر  (سروری)09156691466</p>
+            <p>اگر مثل این صفحه رو برای عزیزت میخوای باهام تماس بگیر  (سروری) 09156691466</p>
           </footer>
           
           <!-- Generic Photo Gallery Script with Swipe Animation, Dots, and Image Caching -->
