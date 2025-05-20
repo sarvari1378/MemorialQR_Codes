@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>اختر ارباب زاده مظفری</title>
+          <script src="https://cdn.tailwindcss.com"></script>
+        <!-- swithc between tabs -->
+        <script>
+            // Switch tab contents
+            function showTabContent(id) {
+              document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active-tab'));
+              document.getElementById(id).classList.add('active-tab');
+            }
+        </script>
+
+        <!-- style of html -->
+        <style>
+            @font-face {
+            font-family: 'CustomFont';
+            src: url('https://raw.githubusercontent.com/sarvari1378/Files/main/Vazirmatn-Regular.woff2') format('woff2');
+            }
+
+            body {
+            font-family: 'CustomFont', sans-serif;
+            background-color: #202020 !important;
+            color: #FFD700;
+            }
+
+            /* Action & Tab Button Animation */
+            .action-button,  .icon-button {
+            transition: transform 0.2s ease-in-out, background-color 0.3s ease;
+            }
+
+            .tab-button {
+                color: #FFD700;
+            }
+
+            .action-button.clicked, .icon-button.clicked {
+            transform: scale(1.1);
+            background-color: #FFD700;
+            color: #FFD700;
+            border: 2px solid white;
+            }
+
+            .tab-button:hover {
+            color: #ff7b00;
+            transform: scale(1.1);
+            }
+
+            /* Tabs Layout */
+            .tabs-container {
+            overflow-x: auto;
+            white-space: nowrap;
+            display: flex;
+            gap: 1rem;
+            padding-bottom: 0.5rem;
+            }
+
+            .tabs-container::-webkit-scrollbar {
+            display: none;
+            }
+
+            .tab {
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            color: #FFD700;
+            }
+
+            .tab-content {
+            display: none;
+            padding: 1rem;
+            background: #1a1a1a;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            color: #FFD700;
+            }
+
+            .active-tab {
+            display: block;
+            }
+
+            #Quran.active-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 100vh;
+            gap: 20px;
+            }
+
+            #Prays.active-tab {
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 20px;
+            }
+
+            /* Gallery Styles */
+            .gallery {
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            aspect-ratio: 3 / 2;
+            margin: 20px auto;
+            overflow: hidden;
+            border: 2px solid #FFD700;
+            border-radius: 8px;
+            background: #000;
+            }
+
+            .gallery img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            transform: translateX(0);
+            }
+
+            /* Dots Navigation */
+            .gallery .dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            }
+
+            .gallery .dot {
+            width: 12px;
+            height: 12px;
+            background-color: #111;
+            border: 2px solid #FFD700;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            }
+
+            .gallery .dot.active {
+            background-color: #FFD700;
+            transform: scale(1.2);
+            }
+
+            /* Gallery Buttons */
+            .gallery button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #FFD700;
+            color: #111;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
+            z-index: 2;
+            }
+
+            .gallery button:hover {
+            background-color: #111;
+            color: #FFD700;
+            border: 2px solid #FFD700;
+            }
+
+            .gallery .prev {
+            left: 10px !important;
+            }
+
+            .gallery .next {
+            right: 10px !important;
+            }
+
+            /* Spinner for loading images */
+            .spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 4px solid #444;
+            border-top: 4px solid #FFD700;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+            }
+
+            /* Container for non-gallery images */
+            .img-container {
+            position: relative;
+            display: inline-block;
+            }
+
+            .img-container img {
+            display: block;
+            }
+
+            /* Footer Styles */
+            footer {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #1a1a1a;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #FFD700;
+            }
+
+            #Quran button {
+            background-color: #FFD700;
+            color: #111;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            }
+
+            .Praysbtn {
+            padding: 12px 28px;
+            border-radius: 9999px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: #FFD700;
+            background: rgba(255, 215, 0, 0.15);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            user-select: none;
+            gap: 60px;
+            }
+
+            .Praysbtn:not(.active):hover {
+            color: #FFD700;
+            background: rgba(255, 215, 0, 0.25);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+            }
+
+            .Praysbtn.active {
+            background-color: #FFD700;
+            box-shadow: 0 0 12px #FFD700cc;
+            color: #111;
+            }
+
+            .right-column {
+            color: #FFD700;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            }
+
+        </style>
+ <!-- style of elements -->
+<style>
+    .video-container {
+      position: fixed;
+      bottom: 0;
+      width: 20vw;
+      height: auto;
+      pointer-events: none;
+    }
+
+    .cheragh-container {
+      position: fixed;
+      top: 0;
+      right: 1;
+      width: 20vw;
+      height: auto;
+      pointer-events: none;
+      transform: rotate(-90deg);
+      padding-top: 50px;
+    }
+
+
+    .video-left {
+      left: 0;
+    }
+
+    .video-right {
+      right: 0;
+    }
+
+    video {
+      width: 100%;
+      height: auto;
+    }
+  </style>
+
+
+
+
+        </head>
+        <body class="bg-white text-gray-900">
+          <div class="max-w-4xl mx-auto p-6 text-center">
+            <!-- Top Left Icons -->
+            <div class="absolute top-4 left-4 flex flex-col space-y-4">
+              <button onclick="window.location.href='https://maps.app.goo.gl/zZE4CoPZCn2XLUvT6'" class="p-2 bg-gray-200 rounded-full icon-button">📍</button>
+            </div>
+            
+            <!-- Profile Section -->
+            <div class="flex flex-col items-center">
+              <div class="img-container inline-block">
+                <div class="spinner"></div>
+                <img src="https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Arbabzade/Profile%20copy.jpg" alt="Profile" class="w-24 h-24 rounded-full border border-gray-300" onload="this.previousElementSibling.style.display='none'">
+              </div>
+              <h1 class="text-xl font-bold mt-2 text-yellow-400">حاج کربلایی تقی زاده</h1>
+            </div>
+            
+            <!-- Stats Section -->
+            <div class="bg-gray-100 p-4 rounded-lg mt-6">
+              <div class="grid grid-cols-3 gap-4 text-gray-900">
+                <div class="p-4 rounded-lg flex flex-col items-center">
+                  <p class="text-lg font-bold">متغییر اول</p>
+                  <p class="text-2xl" id="quranPages">quranPages</p>
+                  <button onclick="increment('quranPages')" class="w-8 h-8 bg-white border-2 border-gray-700 rounded-lg text-gray-700 text-xl flex items-center justify-center action-button">+</button>
+                </div>
+                <div class="p-4 rounded-lg flex flex-col items-center">
+                  <p class="text-lg font-bold">قرائت فاتحه</p>
+                  <p class="text-2xl" id="fatihaCount">fatihaCount</p>
+                  <button onclick="increment('fatihaCount')" class="w-8 h-8 bg-white border-2 border-gray-700 rounded-lg text-gray-700 text-xl flex items-center justify-center action-button">+</button>
+                </div>
+                <div class="p-4 rounded-lg flex flex-col items-center">
+                  <p class="text-lg font-bold">ذکر صلوات</p>
+                  <p class="text-2xl" id="salawatCount">salawatCount</p>
+                  <button onclick="increment('salawatCount')" class="w-8 h-8 bg-white border-2 border-gray-700 rounded-lg text-gray-700 text-xl flex items-center justify-center action-button">+</button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <div class="tabs-container mt-6">
+              <button class="tab-button" onclick="showTabContent('share')">اشتراک گذاری</button>
+              <button class="tab-button" onclick="showTabContent('film')">تصاویر متوفی</button>
+              <button class="tab-button" onclick="showTabContent('Quran')">ختم قرآن</button>
+              <button class="tab-button" onclick="showTabContent('Prays')">دعا های آسمانی</button>
+              <button class="tab-button" onclick="showTabContent('Notes')">دل نوشته ها</button>
+            </div>
+            
+            <!-- Tab Contents -->
+            <div id="share" class="tab-content active-tab">
+                <h2 class="text-lg font-bold mb-4">تصویر بارکد این صفحه</h2>
+                <div class="img-container" style="display: inline-block;">
+                  <div class="spinner"></div>
+                  <img src="https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Arbabzade/3d8ec07de03970f80ad4a1f05c7091b4.png" alt="Biography Image" class="rounded-lg shadow-lg" style="width: 200px; display: block; margin: 0 auto;" onload="this.previousElementSibling.style.display='none'">
+                </div>
+                
+
+            </div>
+            
+            <!-- Film Gallery Tab -->
+            <div id="film" class="tab-content">
+              <div class="gallery" data-images='[
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Arbabzade/01.jpg"
+              ]'>
+                <div class="spinner"></div>
+                <img alt="Slide Image" loading="lazy">
+                <button class="prev">&#10094;</button>
+                <button class="next">&#10095;</button>
+                <div class="dots"></div>
+              </div>
+            </div>
+            
+            
+            <!-- Quran Tabs -->
+            <div id="Quran" class="tab-content">
+            <h2 class="text-lg font-bold mb-4">قرآن</h2>
+            
+            <img id="quranImage"
+                src="https://www.yadeo.ir/media/quran_pages/QuranDaneshAmouzi-001.jpg"
+                alt="صفحه قرآن">
+
+            <audio id="quranAudio" controls>
+                <source src="https://www.yadeo.ir/media/quran_sound/Page001.mp3" type="audio/mpeg">
+                مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
+            </audio>
+
+            <button onclick="updateContent()">خواندم</button>
+            </div>
+
+
+            <!-- Prays Tabs -->
+            <div id="Prays" class="tab-content">
+                
+
+
+                <div class="left-column">
+                <img id="displayImage" src="https://via.placeholder.com/600x400?text=Select+a+button" alt="Display" />
+                <audio id="audioPlayer" controls>
+                    مرورگر شما از پخش صدا پشتیبانی نمی‌کند
+                </audio>
+                </div>
+
+                <div class="right-column" style="display: flex; flex-direction: column;">
+                <button class="Praysbtn" data-img="https://via.placeholder.com/600x400?text=Button+1+Image" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">دعای کمیل</button>
+                <button class="Praysbtn" data-img="https://via.placeholder.com/600x400?text=Button+2+Image" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">سوره یاسین</button>
+                <button class="Praysbtn" data-img="https://via.placeholder.com/600x400?text=Button+3+Image" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">سوره الرحمن</button>
+                <button class="Praysbtn" data-img="https://via.placeholder.com/600x400?text=Button+4+Image" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3">دعای ارحم الراحمین</button>
+                <button class="Praysbtn" data-img="https://via.placeholder.com/600x400?text=Button+5+Image" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3">دعای فرج</button>
+                <button class="Praysbtn" data-img="https://via.placeholder.com/600x400?text=Button+6+Image" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3">دعای عهد</button>
+                <button class="Praysbtn" data-img="https://via.placeholder.com/600x400?text=Button+7+Image" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3">دعای مجیر</button>
+                <button class="Praysbtn" data-img="https://via.placeholder.com/600x400?text=Button+8+Image" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3">دعای ندبه</button>
+                </div>
+
+            </div>
+
+           <!-- ویدیوی سمت چپ -->
+            <div class="video-container video-left">
+                <video autoplay muted loop playsinline>
+                <source src="Sequence 01.webm" type="video/webm">
+                مرورگر شما از ویدیو پشتیبانی نمی‌کند.
+                </video>
+            </div>
+
+            <!-- ویدیوی سمت چپ -->
+            <div class="cheragh-container ">
+                <video autoplay muted loop playsinline>
+                <source src="Cheragh01.webm" type="video/webm">
+                مرورگر شما از ویدیو پشتیبانی نمی‌کند.
+                </video>
+            </div>
+
+          
+          <!-- Footer Section -->
+          <footer>
+            <p>اگر مثل این صفحه رو برای عزیزت میخوای باهام تماس بگیر  (سروری) 09156691466</p>
+          </footer>
+          
+          <!-- Generic Photo Gallery Script with Swipe Animation, Dots, and Image Caching -->
+          <script>
+            document.addEventListener("DOMContentLoaded", function(){
+              // Global cache for images that have already loaded
+              let loadedImagesCache = {};
+          
+              document.querySelectorAll('.gallery').forEach(function(gallery){
+                let images;
+                try {
+                  images = JSON.parse(gallery.getAttribute('data-images'));
+                } catch (e) {
+                  console.error("Error parsing images data:", e);
+                  return;
+                }
+                let index = 0;
+                const imgEl = gallery.querySelector('img');
+                const nextBtn = gallery.querySelector('.next');
+                const prevBtn = gallery.querySelector('.prev');
+                const spinner = gallery.querySelector('.spinner');
+                const dotsContainer = gallery.querySelector('.dots');
+          
+                // Create navigation dots for each image in the gallery.
+                images.forEach((_, idx) => {
+                  const dot = document.createElement('div');
+                  dot.className = 'dot' + (idx === 0 ? ' active' : '');
+                  dot.addEventListener('click', function(){
+                    if (idx !== index) {
+                      transitionToImage(idx, idx > index ? "next" : "prev");
+                    }
+                  });
+                  dotsContainer.appendChild(dot);
+                });
+          
+                function updateDots() {
+                  const dots = dotsContainer.querySelectorAll('.dot');
+                  dots.forEach((dot, idx) => {
+                    dot.classList.toggle('active', idx === index);
+                  });
+                }
+          
+                function preloadNext() {
+                  const nextIndex = (index + 1) % images.length;
+                  const preloadedImg = new Image();
+                  preloadedImg.src = images[nextIndex];
+                }
+          
+                function transitionToImage(newIndex, direction) {
+                  const newImageURL = images[newIndex];
+                  // Only show spinner if this image has not been loaded before.
+                  if (!loadedImagesCache[newImageURL]) {
+                    spinner.style.display = "block";
+                  } else {
+                    spinner.style.display = "none";
+                  }
+                  // Slide out the current image.
+                  if (direction === "next") {
+                    imgEl.style.transition = "transform 0.5s ease";
+                    imgEl.style.transform = "translateX(-100%)";
+                  } else {
+                    imgEl.style.transition = "transform 0.5s ease";
+                    imgEl.style.transform = "translateX(100%)";
+                  }
+                  setTimeout(() => {
+                    // Update index and image source.
+                    index = newIndex;
+                    imgEl.src = newImageURL;
+                    updateDots();
+                    // If image is cached, hide spinner immediately.
+                    if (loadedImagesCache[newImageURL]) {
+                      spinner.style.display = "none";
+                    }
+                    // Prepare the image off-screen for the slide-in effect.
+                    if (direction === "next") {
+                      imgEl.style.transition = "none";
+                      imgEl.style.transform = "translateX(100%)";
+                    } else {
+                      imgEl.style.transition = "none";
+                      imgEl.style.transform = "translateX(-100%)";
+                    }
+                    // Force reflow.
+                    void imgEl.offsetWidth;
+                    // Slide the image into view.
+                    imgEl.style.transition = "transform 0.5s ease";
+                    imgEl.style.transform = "translateX(0)";
+                    preloadNext();
+                  }, 500);
+                }
+          
+                nextBtn.addEventListener("click", function(){
+                  const newIndex = (index + 1) % images.length;
+                  transitionToImage(newIndex, "next");
+                });
+                prevBtn.addEventListener("click", function(){
+                  const newIndex = (index - 1 + images.length) % images.length;
+                  transitionToImage(newIndex, "prev");
+                });
+          
+                // When the image loads, mark it as cached.
+                imgEl.addEventListener("load", function(){
+                  loadedImagesCache[imgEl.src] = true;
+                  spinner.style.display = "none";
+                });
+          
+                // Initialize gallery.
+                imgEl.src = images[index];
+                preloadNext();
+              });
+              
+              // For non-gallery images, hide spinner when loaded.
+              document.querySelectorAll('.img-container img').forEach(function(image){
+                image.addEventListener("load", function(){
+                  let sp = image.parentElement.querySelector('.spinner');
+                  if(sp) sp.style.display = "none";
+                });
+              });
+            });
+          </script>
+          
+          <!-- Button Click Animations -->
+          <script>
+            document.querySelectorAll('.action-button').forEach(button => {
+              button.addEventListener('click', function () {
+                this.classList.add('clicked');
+                setTimeout(() => this.classList.remove('clicked'), 100);
+              });
+            });
+            document.querySelectorAll('.icon-button').forEach(button => {
+              button.addEventListener('click', function () {
+                this.classList.add('clicked');
+                setTimeout(() => this.classList.remove('clicked'), 100);
+              });
+            });
+          </script>
+
+         <!-- Quran page logic -->
+        <script>
+    // شماره صفحه فعلی
+    let currentPage = 1;
+    
+    // تعداد صفحات قرآن (مثلاً 604 صفحه)
+    const totalPages = 604;
+
+    // تابع برای به‌روزرسانی محتوا
+    function updateContent() {
+      if (currentPage >= totalPages) {
+        alert('به پایان قرآن رسیدید!');
+        return;
+      }
+
+      currentPage++;
+
+      // بارگذاری تصویر صفحه جدید
+      document.getElementById("quranImage").src = `https://www.yadeo.ir/media/quran_pages/QuranDaneshAmouzi-${String(currentPage).padStart(3, '0')}.jpg`;
+
+      // بارگذاری صدای صفحه جدید
+      const audio = document.getElementById("quranAudio");
+      audio.src = `https://www.yadeo.ir/media/quran_sound/Page${String(currentPage).padStart(3, '0')}.mp3`;
+      audio.load();
+
+
+    }
+
+    // تابع برای ذخیره شماره صفحه در Cloudflare KV (فرضی)
+    async function savePageInKV(pageNumber) {
+      try {
+        const response = await fetch(`https://your-cloudflare-worker-url.com/savePage`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ page: pageNumber }),
+        });
+
+        if (response.ok) {
+          console.log(`Page ${pageNumber} saved to KV.`);
+        } else {
+          console.error('Error saving page to KV:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Network error:', error);
+      }
+    }
+
+    // تابع برای خواندن صفحات از Cloudflare KV (اگر نیاز به این کار داشتید)
+    async function loadReadPages() {
+      try {
+        const response = await fetch('https://your-cloudflare-worker-url.com/getReadPages');
+        const data = await response.json();
+
+        // در اینجا می‌توانید داده‌های صفحه‌های خوانده شده را نمایش دهید یا استفاده کنید
+        console.log('Pages already read:', data);
+      } catch (error) {
+        console.error('Error loading read pages:', error);
+      }
+    }
+
+    // در هنگام بارگذاری صفحه، می‌توانید لیست صفحات خوانده شده را بارگذاری کنید
+    window.onload = loadReadPages;
+        </script>
+
+
+
+
+<script>
+  const buttons = document.querySelectorAll('.Praysbtn');
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Remove active from all buttons
+      buttons.forEach(btn => btn.classList.remove('active'));
+      // Add active to clicked button
+      button.classList.add('active');
+    });
+  });
+</script>
+
+        </body>
+        </html>
