@@ -1,13 +1,21 @@
-<div class="max-w-xl mx-auto bg-white p-6 rounded-lg shadow-md space-y-4">
-
   <!-- پخش‌کننده صوتی -->
   <audio controls class="w-full">
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     مرورگر شما از پخش فایل صوتی پشتیبانی نمی‌کند.
   </audio>
 
-  <!-- ناحیه متن قابل ویرایش -->
-  <div contenteditable="true" class="rounded-md p-4 min-h-[150px] focus:outline-none focus:ring-2 focus:ring-blue-400 ">
+<div contenteditable="true" 
+     spellcheck="false"
+     style="border: 1px solid #ccc; border-radius: 8px; padding: 16px; min-height: 150px; 
+            white-space: pre-wrap; 
+            word-wrap: break-word; 
+            text-align: center; 
+            outline: none;"
+     onpaste="handlePaste(event)">
+ 
+
+
+
 «بسم الله الرحمن الرحیم»
 اَللّهُمَّ اِنّى اَسْئَلُكَ بِرَحْمَتِكَ الَّتى وَسِعَتْ كُلَّ شَىْءٍ
 خدايا از تو درخواست مى‌كنم، به رحمتت كه همه‌چيز را فرا گرفته
@@ -189,6 +197,13 @@
 اى فروريزنده نعمتها اى دوركننده بلاها، اى روشنى‌ بخش وحشت‌ زدگان در تاريكيها، اى داناى ناآموخته
 صَلِّ عَلى مُحَمَّدٍ وَآلِ مُحَمَّدٍ وَافْعَلْ بى ما اَنْتَ اَهْلُهُ وَ صَلَّى اللّهُ عَلى رَسُولِهِ وَالاْئِمَّةِ الْمَيامينَ مِنْ آلِهِ وَ سَلَّمَ تَسْليماً كَثيراً.
 بر محمّد و خاندان محمّد درود فرست، و با من چنان كن تو را شايد، و درود و سلام فراوان خدا بر پيامبرش و بر امامان‌ خجسته از خاندانش.
-  </div>
-
 </div>
+
+
+<script>
+  function handlePaste(e) {
+    e.preventDefault();
+    const text = (e.clipboardData || window.clipboardData).getData('text');
+    document.execCommand("insertText", false, text);
+  }
+</script>
