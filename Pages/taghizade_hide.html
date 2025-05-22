@@ -446,6 +446,40 @@
       border: none;
     }
   </style>
+  <style>
+    .fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      filter: blur(15px);
+      z-index: 9998;
+      transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    }
+
+    #main-image {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      max-height: 100vh;
+      width: auto;
+      z-index: 9999;
+      transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+    }
+
+    .hide-main {
+      transform: translate(-50%, -60%) scale(0.8);
+      opacity: 0;
+    }
+
+    .hide-bg {
+      transform: scale(1.05);
+      opacity: 0;
+    }
+  </style>
 
         </head>
         <body class="bg-white text-gray-900">
@@ -455,6 +489,14 @@
               <button onclick="window.location.href='https://maps.app.goo.gl/zZE4CoPZCn2XLUvT6'" class="p-2 bg-gray-200 rounded-full icon-button">📍</button>
             </div>
             
+            <!-- تصویر پس‌زمینه بلور -->
+            <img id="bg-image" class="fullscreen" src="https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/Profile.jpg" alt="Blurry Background">
+
+            <!-- تصویر اصلی -->
+            <img id="main-image" src="https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/Profile.jpg" alt="Main Image">
+
+
+
             <!-- Profile Section -->
             <div class="profile-gallery-wrapper">
             <div class="profile-gallery-img-container">
@@ -566,17 +608,16 @@
 
 
             <select id="prayerSelect" class="w-full p-3 rounded-xl bg-black border border-yellow-500 shadow-md text-yellow-400 font-semibold text-lg focus:ring-2 focus:ring-yellow-500 hover:border-yellow-400 transition-all duration-200">
-                <option value="">-- ویدیو را انتخاب کنید --</option>
+                <option value="">-- دعا را انتخاب کنید --</option>
                 <option value="22563382336">دعای کمیل</option>
                 <option value="25306786704">سوره یاسین</option>
                 <option value="77790668734">سوره الرحمن</option>
                 <option value="37495468652">دعای فرج</option>
                 <option value="15310558190">دعای عهد</option>
                 <option value="75431856343">دعای مجیر</option>
-                <option value="71339878342">دعای مجیر</option>
+                <option value="71339878342">دعای ندبه</option>
             </select>
 
-        
             </div>
 
             <div id="Prays">
@@ -998,6 +1039,26 @@ document.addEventListener("DOMContentLoaded", () => {
           container.appendChild(script);
         }
       }
+    });
+  </script>
+
+
+<script>
+    document.addEventListener('click', function handleClick() {
+      const mainImage = document.getElementById('main-image');
+      const bgImage = document.getElementById('bg-image');
+
+      mainImage.classList.add('hide-main');
+      setTimeout(() => {
+        bgImage.classList.add('hide-bg');
+      }, 150); // کمی تأخیر برای عمق بصری
+
+      setTimeout(() => {
+        mainImage.style.display = 'none';
+        bgImage.style.display = 'none';
+      }, 1200);
+
+      document.removeEventListener('click', handleClick);
     });
   </script>
 
