@@ -3,11 +3,16 @@
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>اختر ارباب زاده مظفری</title>
+          <title>حاج اسدالله تقی زاده</title>
           <script src="https://cdn.tailwindcss.com"></script>
         <!-- swithc between tabs -->
         <script>
             // Switch tab contents
+            function showTabContent(id) {
+              document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active-tab'));
+              document.getElementById(id).classList.add('active-tab');
+            }
+
             function showTabContent(id) {
               document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active-tab'));
               document.getElementById(id).classList.add('active-tab');
@@ -92,7 +97,7 @@
 
             #Prays.active-tab {
             display: flex;
-            flex-direction: row-reverse;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
@@ -228,33 +233,11 @@
             font-weight: bold;
             }
 
-            .Praysbtn {
-            padding: 12px 28px;
-            border-radius: 9999px;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            color: #FFD700;
-            background: rgba(255, 215, 0, 0.15);
-            backdrop-filter: blur(8px);
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-            user-select: none;
-            gap: 60px;
-            }
+            
 
-            .Praysbtn:not(.active):hover {
-            color: #FFD700;
-            background: rgba(255, 215, 0, 0.25);
-            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
-            }
+            
 
-            .Praysbtn.active {
-            background-color: #FFD700;
-            box-shadow: 0 0 12px #FFD700cc;
-            color: #111;
-            }
+            
 
             .right-column {
             color: #FFD700;
@@ -381,6 +364,88 @@
         }
         </style>
 
+<!-- style of fotter music -->
+  <style>
+    #myAudioFooter {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      background: white;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      box-sizing: border-box;
+      transition: transform 0.4s ease;
+      z-index: 1000;
+      transform: translateY(100%);
+    }
+    #myAudioFooter.visible {
+      transform: translateY(0);
+    }
+    #myVisualizer {
+      display: flex;
+      gap: 4px;
+      height: 40px;
+      align-items: flex-end;
+      flex: 1;
+      margin: 0 12px;
+    }
+    .myBar {
+      width: 3px;
+      height: 5px;
+      background: #3498db;
+      border-radius: 2px;
+      transition: height 0.1s ease;
+    }
+    #myControlBtn {
+      background: transparent;
+      border: none;
+      width: 48px;
+      height: 48px;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+    }
+    #myControlBtn svg {
+      fill: #3498db;
+      width: 28px;
+      height: 28px;
+      transition: fill 0.3s ease;
+    }
+    #myControlBtn:hover svg {
+      fill: #1d6fa5;
+    }
+  </style>
+
+<style>
+    /* والد ویدیو */
+    #video-container {
+      position: relative;
+      width: 100%;          /* پهنای کل والد */
+      max-width: 800px;     /* می‌تونی محدودش کنی */
+      margin: 0 auto;       /* وسط چین کردن */
+      padding-bottom: 56.25%; /* نسبت 16:9 */
+      height: 0;
+      overflow: hidden;
+    }
+
+    /* iframe ساخته شده توسط اسکریپت آپارات */
+    #video-container iframe {
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      width: 100% !important;
+      height: 100% !important;
+      border: none;
+    }
+  </style>
 
         </head>
         <body class="bg-white text-gray-900">
@@ -432,15 +497,15 @@
             
             <!-- Navigation Tabs -->
             <div class="tabs-container mt-6">
-              <button class="tab-button" onclick="showTabContent('share')">اشتراک گذاری</button>
               <button class="tab-button" onclick="showTabContent('film')">تصاویر متوفی</button>
               <button class="tab-button" onclick="showTabContent('Quran')">ختم قرآن</button>
-              <button class="tab-button" onclick="showTabContent('Prays')">دعا های آسمانی</button>
+              <button class="tab-button" onclick="showTabContent('Prays')">ادعیه آسمانی</button>
               <button class="tab-button" onclick="showTabContent('Notes')">دل نوشته ها</button>
+              <button class="tab-button" onclick="showTabContent('share')">اشتراک گذاری</button>
             </div>
             
             <!-- Tab Contents -->
-            <div id="share" class="tab-content active-tab">
+            <div id="share" class="tab-content">
                 <h2 class="text-lg font-bold mb-4">تصویر بارکد این صفحه</h2>
                 <div class="img-container" style="display: inline-block;">
                   <div class="spinner"></div>
@@ -451,7 +516,7 @@
             </div>
             
             <!-- Film Gallery Tab -->
-            <div id="film" class="tab-content">
+            <div id="film" class="tab-content active-tab">
               <div class="gallery" data-images='[
                 "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/01.jpg",
                 "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/02.jpg",
@@ -497,29 +562,34 @@
 
 
             <!-- Prays Tabs -->
-            <div id="Prays" class="tab-content">
-                
+           <div id="Prays" class="tab-content">
 
 
-                <div class="left-column">
-                <img id="displayImage" src="https://via.placeholder.com/600x400?text=Select+a+button" alt="Display" />
-                <audio id="audioPlayer" controls>
-                    مرورگر شما از پخش صدا پشتیبانی نمی‌کند
-                </audio>
-                </div>
+            <select id="prayerSelect" class="w-full p-3 rounded-xl bg-black border border-yellow-500 shadow-md text-yellow-400 font-semibold text-lg focus:ring-2 focus:ring-yellow-500 hover:border-yellow-400 transition-all duration-200">
+                <option value="">-- ویدیو را انتخاب کنید --</option>
+                <option value="22563382336">دعای کمیل</option>
+                <option value="25306786704">سوره یاسین</option>
+                <option value="77790668734">سوره الرحمن</option>
+                <option value="37495468652">دعای فرج</option>
+                <option value="15310558190">دعای عهد</option>
+                <option value="75431856343">دعای مجیر</option>
+                <option value="71339878342">دعای مجیر</option>
+            </select>
 
-                <div class="right-column" style="display: flex; flex-direction: column; ">
-                <button class="Praysbtn" data-img="https://via.placeholder.com/600x400?text=Button+1+Image" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">دعای کمیل</button>
-                <button class="Praysbtn" data-img="https://via.placeholder.com/600x400?text=Button+2+Image" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">سوره یاسین</button>
-                <button class="Praysbtn" data-img="https://via.placeholder.com/600x400?text=Button+3+Image" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">سوره الرحمن</button>
-                <button class="Praysbtn" data-img="https://via.placeholder.com/600x400?text=Button+4+Image" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3">دعای ارحم الراحمین</button>
-                <button class="Praysbtn" data-img="https://via.placeholder.com/600x400?text=Button+5+Image" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3">دعای فرج</button>
-                <button class="Praysbtn" data-img="https://via.placeholder.com/600x400?text=Button+6+Image" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3">دعای عهد</button>
-                <button class="Praysbtn" data-img="https://via.placeholder.com/600x400?text=Button+7+Image" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3">دعای مجیر</button>
-                <button class="Praysbtn" data-img="https://via.placeholder.com/600x400?text=Button+8+Image" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3">دعای ندبه</button>
-                </div>
+        
+            </div>
+
+            <div id="Prays">
+                <div id="22563382336"></div>
+                <div id="25306786704"></div>
+                <div id="77790668734"></div>
+                <div id="37495468652"></div>
+                <div id="15310558190"></div>
+                <div id="75431856343"></div>
+                <div id="71339878342"></div>
 
             </div>
+
 
            <!-- ویدیوی سمت چپ -->
             <div class="video-container video-left">
@@ -542,6 +612,24 @@
           <footer>
             <p>اگر مثل این صفحه رو برای عزیزت میخوای باهام تماس بگیر  (سروری) 09156691466</p>
           </footer>
+
+          <audio id="myAudio" crossorigin="anonymous" src="https://sarvari1378.github.io/MemorialQR_Codes/Imagees/Taghizade/StartAudio.mp3" preload="auto"></audio>
+
+<div id="myAudioFooter">
+  <button id="myControlBtn" title="پخش / توقف" aria-label="پخش / توقف">
+    <!-- دکمه پخش (پیش فرض) -->
+    <svg id="myPlayIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
+      <path d="M8 5v14l11-7z"/>
+    </svg>
+    <!-- دکمه توقف، ابتدا مخفی -->
+    <svg id="myPauseIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+    </svg>
+  </button>
+  <div id="myVisualizer"></div>
+</div>
+
+
           
           <!-- Generic Photo Gallery Script with Swipe Animation, Dots, and Image Caching -->
           <script>
@@ -869,19 +957,129 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 
+<audio id="myAudio" preload="auto">
+  <source src="https://github.com/sarvari1378/MemorialQR_Codes/raw/refs/heads/main/Imagees/Taghizade/StartAudio.mp3" type="audio/mpeg">
+</audio>
+
+  <script>
+    const aparatVideos = {
+      "22563382336": "0a67L",
+      "25306786704": "ttky579",
+      "77790668734": "udjsl77",
+      "37495468652": "r88myrr",
+      "15310558190": "w08bmg5",
+      "75431856343": "6Mnwc",
+      "71339878342": "Ko7W4"
+    };
+
+    const select = document.getElementById('prayerSelect');
+
+    select.addEventListener('change', function() {
+      const value = this.value;
+
+      Object.keys(aparatVideos).forEach(id => {
+        const div = document.getElementById(id);
+        if (div) {
+          div.style.display = 'none';
+          div.innerHTML = ''; // پاک کردن ویدیوهای قبلی
+        }
+      });
+
+      if (value && aparatVideos[value]) {
+        const container = document.getElementById(value);
+        if (container) {
+          container.style.display = 'block';
+
+          // ساختن تگ اسکریپت به صورت داینامیک
+          const script = document.createElement('script');
+          script.type = 'text/javascript';
+          script.src = `https://www.aparat.com/embed/${aparatVideos[value]}?data[rnddiv]=${value}&data[responsive]=yes`;
+
+          container.appendChild(script);
+        }
+      }
+    });
+  </script>
+
+
 
 <script>
-  const buttons = document.querySelectorAll('.Praysbtn');
+  const audio = document.getElementById("myAudio");
+  const footer = document.getElementById("myAudioFooter");
+  const controlBtn = document.getElementById("myControlBtn");
+  const visualizer = document.getElementById("myVisualizer");
+  const playIcon = document.getElementById("myPlayIcon");
+  const pauseIcon = document.getElementById("myPauseIcon");
 
-  buttons.forEach(button => {
-    button.addEventListener('click', () => {
-      // Remove active from all buttons
-      buttons.forEach(btn => btn.classList.remove('active'));
-      // Add active to clicked button
-      button.classList.add('active');
-    });
+  const barCount = 60;
+  const bars = [];
+
+  for (let i = 0; i < barCount; i++) {
+    const bar = document.createElement("div");
+    bar.className = "myBar";
+    visualizer.appendChild(bar);
+    bars.push(bar);
+  }
+
+  let audioContext, analyser, source, dataArray;
+
+  function setupAudioContext() {
+    if (!audioContext) {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      analyser = audioContext.createAnalyser();
+      source = audioContext.createMediaElementSource(audio);
+      source.connect(analyser);
+      analyser.connect(audioContext.destination);
+      analyser.fftSize = 128;
+      const bufferLength = analyser.frequencyBinCount;
+      dataArray = new Uint8Array(bufferLength);
+    }
+  }
+
+  function renderVisualizer() {
+    requestAnimationFrame(renderVisualizer);
+    if (!analyser) return;
+
+    analyser.getByteFrequencyData(dataArray);
+    for (let i = 0; i < bars.length; i++) {
+      const value = dataArray[i];
+      const height = (value / 255) * 40;
+      bars[i].style.height = `${height}px`;
+    }
+  }
+
+  let started = false;
+
+  document.addEventListener("click", () => {
+    if (!started) {
+      setupAudioContext();
+      audio.play();
+      renderVisualizer();
+      footer.classList.add("visible");
+      playIcon.style.display = "none";
+      pauseIcon.style.display = "block";
+      started = true;
+    }
+  });
+
+  controlBtn.addEventListener("click", () => {
+    if (audio.paused) {
+      audio.play();
+      playIcon.style.display = "none";
+      pauseIcon.style.display = "block";
+      footer.classList.add("visible");
+    } else {
+      audio.pause();
+      playIcon.style.display = "block";
+      pauseIcon.style.display = "none";
+    }
+  });
+
+  audio.addEventListener("ended", () => {
+    footer.classList.remove("visible");
+    playIcon.style.display = "block";
+    pauseIcon.style.display = "none";
   });
 </script>
-
         </body>
         </html>
