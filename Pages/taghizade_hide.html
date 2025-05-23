@@ -481,6 +481,67 @@
     }
   </style>
 
+<style>
+  .note {
+    background-color: white;
+    color: black;
+    border-radius: 12px;
+    padding: 1em;
+    margin: 1em 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+
+  .note small {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    font-size: 0.8em;
+    color: black;
+    opacity: 0.7;
+  }
+
+  .note div {
+    white-space: pre-wrap;
+    line-height: 1.6;
+    margin-top: 1.5em;
+  }
+  .delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 0.8em;
+    transition: background-color 0.2s ease;
+  }
+
+  .delete-btn:hover {
+    background-color: #d32f2f;
+  }
+  textarea#content {
+    width: 100%;
+    min-height: 60px;
+    resize: none;
+    padding: 10px;
+    font-family: Tahoma, sans-serif;
+    font-size: 1em;
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    overflow-y: hidden;
+    transition: height 0.2s ease;
+  }
+</style>
+
+
+
         </head>
         <body class="bg-white text-gray-900">
           <div class="max-w-4xl mx-auto p-6 text-center">
@@ -542,7 +603,7 @@
               <button class="tab-button" onclick="showTabContent('film')">تصاویر متوفی</button>
               <button class="tab-button" onclick="showTabContent('Quran')">ختم قرآن</button>
               <button class="tab-button" onclick="showTabContent('Prays')">ادعیه آسمانی</button>
-              <button class="tab-button" onclick="showTabContent('Notes')">دل نوشته ها</button>
+              <button class="tab-button" onclick="showTabContent('Notestab')">دل نوشته ها</button>
               <button class="tab-button" onclick="showTabContent('share')">اشتراک گذاری</button>
             </div>
             
@@ -553,6 +614,16 @@
                   <div class="spinner"></div>
                   <img src="https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Arbabzade/3d8ec07de03970f80ad4a1f05c7091b4.png" alt="Biography Image" class="rounded-lg shadow-lg" style="width: 200px; display: block; margin: 0 auto;" onload="this.previousElementSibling.style.display='none'">
                 </div>
+                
+
+            </div>
+
+            <div id="Notestab" class="tab-content">
+                
+                <textarea id="content" placeholder="دل‌نوشته‌ات را بنویس..." maxlength="120"></textarea><br />
+                <button id="NotessaveBtn">ذخیره دل‌نوشته</button>
+
+                <div id="notes"></div>
                 
 
             </div>
@@ -1062,6 +1133,114 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   </script>
 
+ <!-- Notes Module logic -->
+  <script>
+    const BASE_URL = 'https://notes.cobaka6220.workers.dev'; // آدرس ورکر
+
+    function getUserId() {
+      let userId = localStorage.getItem('userId');
+      if (!userId) {
+        userId = crypto.randomUUID();
+        localStorage.setItem('userId', userId);
+      }
+      return userId;
+    }
+
+    const userId = getUserId();
+
+    async function saveNote() {
+      const content = document.getElementById('content').value.trim();
+      if (!content) {
+        alert('دل‌نوشته نمی‌تواند خالی باشد');
+        return;
+      }
+      try {
+        const res = await fetch(BASE_URL + '/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ content, userId }),
+        });
+        if (!res.ok) {
+          alert('خطا در ذخیره دل‌نوشته: ' + res.status);
+          return;
+        }
+        document.getElementById('content').value = '';
+        await loadNotes();
+      } catch (e) {
+        alert('خطا در ذخیره دل‌نوشته: ' + e.message);
+      }
+    }
+
+    async function loadNotes() {
+      const notesDiv = document.getElementById('notes');
+      notesDiv.innerHTML = 'در حال بارگذاری دل‌نوشته‌ها...';
+      try {
+        const res = await fetch(BASE_URL + '/list');
+        if (!res.ok) throw new Error('خطا در دریافت لیست');
+        const notes = await res.json();
+
+        if (notes.length === 0) {
+          notesDiv.innerHTML = 'هیچ دل‌نوشته‌ای وجود ندارد.';
+          return;
+        }
+
+        notesDiv.innerHTML = '';
+        notes.forEach(note => {
+          const div = document.createElement('div');
+          div.className = 'note';
+
+          div.innerHTML = `
+            <div>${note.content.replace(/\n/g, '<br>')}</div>
+            <small>زمان ذخیره: ${new Date(note.timestamp).toLocaleString('fa-IR')}</small>
+          `;
+
+          if (note.userId === userId) {
+            const btn = document.createElement('button');
+            btn.className = 'delete-btn';
+            btn.textContent = 'حذف';
+            btn.onclick = () => deleteNote(note.timestamp);
+            div.appendChild(btn);
+          }
+
+          notesDiv.appendChild(div);
+        });
+      } catch (e) {
+        notesDiv.innerHTML = 'خطا در بارگذاری دل‌نوشته‌ها: ' + e.message;
+      }
+    }
+
+    async function deleteNote(key) {
+      if (!confirm('آیا مطمئن هستید که می‌خواهید این دل‌نوشته را حذف کنید؟')) return;
+      try {
+        const res = await fetch(BASE_URL + '/delete?key=' + encodeURIComponent(key), {
+          method: 'DELETE',
+          headers: { 'x-user-id': userId },
+        });
+        if (!res.ok) {
+          alert('خطا در حذف دل‌نوشته: ' + res.status);
+          return;
+        }
+        await loadNotes();
+      } catch (e) {
+        alert('خطا در حذف دل‌نوشته: ' + e.message);
+      }
+    }
+
+    document.getElementById('NotessaveBtn').addEventListener('click', saveNote);
+    loadNotes();
+  </script>
+ <!-- Notes Module text hight logic -->
+<script>
+  const textarea = document.getElementById('content');
+
+  function autoResize() {
+    textarea.style.height = 'auto'; // ریست برای محاسبه مجدد
+    textarea.style.height = textarea.scrollHeight + 'px'; // ارتفاع براساس محتوا
+  }
+
+  textarea.addEventListener('input', autoResize);
+  window.addEventListener('load', autoResize); // بار اول هم تنظیم بشه
+</script>
 
 
 <script>
