@@ -584,7 +584,7 @@
             <div class="bg-gray-100 p-4 rounded-lg mt-6">
               <div class="grid grid-cols-3 gap-4 text-gray-900">
                 <div class="p-4 rounded-lg flex flex-col items-center">
-                  <p class="text-lg font-bold">قرائت فاتحه</p>
+                  <p class="text-lg font-bold">قرائت یس</p>
                   <span class="value" id="val-var1">درحال بارگذاری...</span><button class= "w-8 h-8 bg-white border-2 border-gray-700 rounded-lg text-gray-700 text-xl flex items-center justify-center action-button" data-var="var1">+</button>
                 </div>
                 <div class="p-4 rounded-lg flex flex-col items-center">
@@ -612,7 +612,7 @@
                 <h2 class="text-lg font-bold mb-4">تصویر بارکد این صفحه</h2>
                 <div class="img-container" style="display: inline-block;">
                   <div class="spinner"></div>
-                  <img src="https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Arbabzade/3d8ec07de03970f80ad4a1f05c7091b4.png" alt="Biography Image" class="rounded-lg shadow-lg" style="width: 200px; display: block; margin: 0 auto;" onload="this.previousElementSibling.style.display='none'">
+                  <img src="https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/QRcode.png" alt="Biography Image" class="rounded-lg shadow-lg" style="width: 200px; display: block; margin: 0 auto;" onload="this.previousElementSibling.style.display='none'">
                 </div>
                 
 
@@ -722,7 +722,7 @@
           
           <!-- Footer Section -->
           <footer>
-            <p>اگر مثل این صفحه رو برای عزیزت میخوای باهام تماس بگیر چاپ ترنج ۰۹۱۵۲۱۸۴۰۱۹</p>
+            <p>چاپ ترنج (بهمنی مقدم) ۰۹۱۵۲۱۸۴۰۱۹</p>
           </footer>
 
           <audio id="myAudio" crossorigin="anonymous" src="https://sarvari1378.github.io/MemorialQR_Codes/Imagees/Taghizade/StartAudio.mp3" preload="auto"></audio>
@@ -972,59 +972,75 @@
         </script>
 
          <!-- variables worker logic -->
-        <script>
-        const baseUrl = 'https://variable.cobaka6220.workers.dev';
+<script>
+const baseUrl = 'https://variable.cobaka6220.workers.dev';
 
-        // تابع برای گرفتن مقدار متغیر از Worker
-        async function getValue(varName) {
-            try {
-            const res = await fetch(`${baseUrl}/${varName}/get`);
-            if (!res.ok) throw new Error('Network response was not ok');
-            const data = await res.json();
-            return parseInt(data.value) || 0;
-            } catch(e) {
-            console.error(e);
-            return 0;
-            }
-        }
+const buffers = {};  // نگه داشتن کلیک‌ها
+const lastSent = {}; // جلوگیری از ارسال همزمان
 
-        // تابع برای ذخیره مقدار جدید
-        async function postValue(varName, newValue) {
-            try {
-            const res = await fetch(`${baseUrl}/${varName}/post/${newValue}`, { method: 'POST' });
-            if (!res.ok) throw new Error('Network response was not ok');
-            const data = await res.json();
-            return data.value;
-            } catch(e) {
-            console.error(e);
-            return null;
-            }
-        }
+// گرفتن مقدار اولیه
+async function getValue(varName) {
+  try {
+    const res = await fetch(`${baseUrl}/${varName}/get`);
+    const data = await res.json();
+    return parseInt(data.value) || 0;
+  } catch (e) {
+    console.error(e);
+    return 0;
+  }
+}
 
-        // بروزرسانی مقدار در صفحه
-        async function updateValueDisplay(varName) {
-            const val = await getValue(varName);
-            document.getElementById('val-' + varName).textContent = val;
-        }
+// ارسال مجموع کلیک‌ها
+async function flushBuffer(varName) {
+  if (!buffers[varName] || buffers[varName] === 0 || lastSent[varName]) return;
 
-        // تنظیم رویداد کلیک دکمه‌ها
-        document.querySelectorAll('button[data-var]').forEach(btn => {
-            const varName = btn.getAttribute('data-var');
-            // ابتدا مقدار رو بارگذاری می‌کنیم
-            updateValueDisplay(varName);
+  const clicks = buffers[varName];
+  buffers[varName] = 0;
+  lastSent[varName] = true;
 
-            btn.addEventListener('click', async () => {
-            btn.disabled = true; // جلوگیری از چند کلیک همزمان
-            let currentVal = await getValue(varName);
-            const newVal = currentVal + 1; // عدد جدید، 1 اضافه می‌کنیم
-            const storedVal = await postValue(varName, newVal);
-            if (storedVal !== null) {
-                document.getElementById('val-' + varName).textContent = storedVal;
-            }
-            btn.disabled = false;
-            });
-        });
-        </script>
+  try {
+    const current = await getValue(varName);
+    const newVal = current + clicks;
+
+    const res = await fetch(`${baseUrl}/${varName}/post/${newVal}`, {
+      method: 'POST',
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      document.getElementById('val-' + varName).textContent = data.value;
+    } else {
+      throw new Error('POST failed');
+    }
+  } catch (e) {
+    console.error('ارسال ناموفق:', e);
+    buffers[varName] = clicks; // کلیک‌ها رو دوباره توی صف بذار
+  } finally {
+    lastSent[varName] = false;
+  }
+}
+
+// هر دکمه رو آماده می‌کنیم
+document.querySelectorAll('button[data-var]').forEach(btn => {
+  const varName = btn.getAttribute('data-var');
+  const valSpan = document.getElementById('val-' + varName);
+
+  // مقدار اولیه
+  getValue(varName).then(val => valSpan.textContent = val);
+
+  buffers[varName] = 0;
+
+  // هر بار کلیک:
+  btn.addEventListener('click', () => {
+    buffers[varName]++;
+    const current = parseInt(valSpan.textContent) || 0;
+    valSpan.textContent = current + 1;
+  });
+
+  // هر 1 ثانیه flush کنیم
+  setInterval(() => flushBuffer(varName), 1000);
+});
+</script>
 
  <!-- Quran page logic -->
 <script>
