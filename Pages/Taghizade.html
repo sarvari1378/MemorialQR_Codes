@@ -1,24 +1,1341 @@
 <!DOCTYPE html>
-<html lang="fa">
-<head>
-  <meta charset="UTF-8">
-  <title>به زودی</title>
-  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
+<html lang="fa" dir="rtl">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>حاج اسدالله تقی زاده</title>
+          <script src="https://cdn.tailwindcss.com"></script>
+        <!-- swithc between tabs -->
+        <script>
+            // Switch tab contents
+            function showTabContent(id) {
+              document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active-tab'));
+              document.getElementById(id).classList.add('active-tab');
+            }
+
+            function showTabContent(id) {
+              document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active-tab'));
+              document.getElementById(id).classList.add('active-tab');
+            }
+        </script>
+
+        <!-- style of html -->
+        <style>
+            @font-face {
+            font-family: 'CustomFont';
+            src: url('https://raw.githubusercontent.com/sarvari1378/Files/main/Vazirmatn-Regular.woff2') format('woff2');
+            }
+
+            body {
+            font-family: 'CustomFont', sans-serif;
+            background-color: #202020 !important;
+            color: #FFD700;
+            }
+
+            /* Action & Tab Button Animation */
+            .action-button,  .icon-button {
+            transition: transform 0.2s ease-in-out, background-color 0.3s ease;
+            }
+
+            .tab-button {
+                color: #FFD700;
+            }
+
+            .action-button.clicked, .icon-button.clicked {
+            transform: scale(1.1);
+            background-color: #FFD700;
+            color: #FFD700;
+            border: 2px solid white;
+            }
+
+            .tab-button:hover {
+            color: #ff7b00;
+            transform: scale(1.1);
+            }
+
+            /* Tabs Layout */
+            .tabs-container {
+            overflow-x: auto;
+            white-space: nowrap;
+            display: flex;
+            gap: 1rem;
+            padding-bottom: 0.5rem;
+            }
+
+            .tabs-container::-webkit-scrollbar {
+            display: none;
+            }
+
+            .tab {
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            color: #FFD700;
+            }
+
+            .tab-content {
+            display: none;
+            padding: 1rem;
+            background: #1a1a1a;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            color: #FFD700;
+            }
+
+            .active-tab {
+            display: block;
+            }
+
+            #Quran.active-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 100vh;
+            gap: 20px;
+            }
+
+            #Prays.active-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 20px;
+            }
+
+            /* Gallery Styles */
+            .gallery {
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            aspect-ratio: 3 / 2;
+            margin: 20px auto;
+            overflow: hidden;
+            border: 2px solid #FFD700;
+            border-radius: 8px;
+            background: #000;
+            }
+
+            .gallery img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            transform: translateX(0);
+            }
+
+            /* Dots Navigation */
+            .gallery .dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            }
+
+            .gallery .dot {
+            width: 12px;
+            height: 12px;
+            background-color: #111;
+            border: 2px solid #FFD700;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            }
+
+            .gallery .dot.active {
+            background-color: #FFD700;
+            transform: scale(1.2);
+            }
+
+            /* Gallery Buttons */
+            .gallery button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #FFD700;
+            color: #111;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
+            z-index: 2;
+            }
+
+            .gallery button:hover {
+            background-color: #111;
+            color: #FFD700;
+            border: 2px solid #FFD700;
+            }
+
+            .gallery .prev {
+            left: 10px !important;
+            }
+
+            .gallery .next {
+            right: 10px !important;
+            }
+
+            /* Spinner for loading images */
+            .spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 4px solid #444;
+            border-top: 4px solid #FFD700;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+            }
+
+            /* Container for non-gallery images */
+            .img-container {
+            position: relative;
+            display: inline-block;
+            }
+
+            .img-container img {
+            display: block;
+            }
+
+            /* Footer Styles */
+            footer {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #1a1a1a;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #FFD700;
+            }
+
+            #Quran button {
+            background-color: #FFD700;
+            color: #111;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            }
+
+            
+
+            
+
+            
+
+            .right-column {
+            color: #FFD700;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            }
+
+        </style>
+
+        <!-- style of elements -->
+        <style>
+    .video-container {
+      position: fixed;
+      bottom: 0;
+      width: 20vw;
+      height: auto;
+      pointer-events: none;
+    }
+
+    .cheragh-container {
+      position: fixed;
+      top: 0;
+      right: 1;
+      width: 20vw;
+      height: auto;
+      pointer-events: none;
+      transform: rotate(-90deg);
+      padding-top: 50px;
+    }
+
+
+    .video-left {
+      left: 0;
+    }
+
+    .video-right {
+      right: 0;
+    }
+
+    video {
+      width: 100%;
+      height: auto;
+    }
+        </style>
+
+        <!-- style of Profile -->
+        <style>
+        /* فقط کلاس‌ها و آیدی‌های مخصوص گالری پروفایل */
+        .profile-gallery-img-container img {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            border: 2px solid #ccc;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+        .profile-gallery-img-container img:hover {
+            transform: scale(1.1);
+        }
+
+        .profile-gallery-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            align-items: center;
+            justify-content: center;
+        }
+        .profile-gallery-modal.active {
+            display: flex;
+        }
+        .profile-gallery-modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 80%;
+        }
+        .profile-gallery-modal-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(255,255,255,0.3);
+        }
+
+        .profile-gallery-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #FFD700;
+            color: #111;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
+            z-index: 2;
+        }
+        .profile-gallery-btn:hover {
+            background: rgba(255,255,255,0.6);
+        }
+        .profile-gallery-btn.prev {
+            left: -50px;
+        }
+        .profile-gallery-btn.next {
+            right: -50px;
+        }
+        .profile-gallery-btn-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: transparent;
+            font-size: 2rem;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        </style>
+
+<!-- style of fotter music -->
   <style>
-    body {
-      background-color: #000;
-      color: #fff;
-      font-family: 'Vazir', sans-serif;
+    #myAudioFooter {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      background: white;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      box-sizing: border-box;
+      transition: transform 0.4s ease;
+      z-index: 1000;
+      transform: translateY(100%);
+    }
+    #myAudioFooter.visible {
+      transform: translateY(0);
+    }
+    #myVisualizer {
+      display: flex;
+      gap: 4px;
+      height: 40px;
+      align-items: flex-end;
+      flex: 1;
+      margin: 0 12px;
+    }
+    .myBar {
+      width: 3px;
+      height: 5px;
+      background: #3498db;
+      border-radius: 2px;
+      transition: height 0.1s ease;
+    }
+    #myControlBtn {
+      background: transparent;
+      border: none;
+      width: 48px;
+      height: 48px;
+      cursor: pointer;
+      padding: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      margin: 0;
-      font-size: 2rem;
+      user-select: none;
+    }
+    #myControlBtn svg {
+      fill: #3498db;
+      width: 28px;
+      height: 28px;
+      transition: fill 0.3s ease;
+    }
+    #myControlBtn:hover svg {
+      fill: #1d6fa5;
     }
   </style>
-</head>
-<body>
-  این صفحه به زودی راه‌اندازی خواهد شد
-</body>
-</html>
+
+<style>
+    /* والد ویدیو */
+    #video-container {
+      position: relative;
+      width: 100%;          /* پهنای کل والد */
+      max-width: 800px;     /* می‌تونی محدودش کنی */
+      margin: 0 auto;       /* وسط چین کردن */
+      padding-bottom: 56.25%; /* نسبت 16:9 */
+      height: 0;
+      overflow: hidden;
+    }
+
+    /* iframe ساخته شده توسط اسکریپت آپارات */
+    #video-container iframe {
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      width: 100% !important;
+      height: 100% !important;
+      border: none;
+    }
+  </style>
+  <style>
+    .fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      filter: blur(15px);
+      z-index: 9998;
+      transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    }
+
+    #main-image {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      max-height: 100vh;
+      width: auto;
+      z-index: 9999;
+      transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+    }
+
+    .hide-main {
+      transform: translate(-50%, -60%) scale(0.8);
+      opacity: 0;
+    }
+
+    .hide-bg {
+      transform: scale(1.05);
+      opacity: 0;
+    }
+  </style>
+
+<style>
+  .note {
+    background-color: white;
+    color: black;
+    border-radius: 12px;
+    padding: 1em;
+    margin: 1em 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+
+  .note small {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    font-size: 0.8em;
+    color: black;
+    opacity: 0.7;
+  }
+
+  .note div {
+    white-space: pre-wrap;
+    line-height: 1.6;
+    margin-top: 1.5em;
+  }
+  .delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 0.8em;
+    transition: background-color 0.2s ease;
+  }
+
+  .delete-btn:hover {
+    background-color: #d32f2f;
+  }
+  textarea#content {
+    width: 100%;
+    min-height: 60px;
+    resize: none;
+    padding: 10px;
+    font-family: Tahoma, sans-serif;
+    font-size: 1em;
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    overflow-y: hidden;
+    transition: height 0.2s ease;
+  }
+</style>
+
+
+
+        </head>
+        <body class="bg-white text-gray-900">
+          <div class="max-w-4xl mx-auto p-6 text-center">
+            <!-- Top Left Icons -->
+            <div class="absolute top-4 left-4 flex flex-col space-y-4">
+              <button onclick="window.location.href='https://maps.app.goo.gl/zZE4CoPZCn2XLUvT6'" class="p-2 bg-gray-200 rounded-full icon-button">📍</button>
+            </div>
+            
+            <!-- تصویر پس‌زمینه بلور -->
+            <img id="bg-image" class="fullscreen" src="https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/Profile.jpg" alt="Blurry Background">
+
+            <!-- تصویر اصلی -->
+            <img id="main-image" src="https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/Profile.jpg" alt="Main Image">
+
+
+
+            <!-- Profile Section -->
+            <div class="profile-gallery-wrapper">
+            <div class="profile-gallery-img-container">
+                <img 
+                src="https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/Profile.jpg" 
+                alt="Profile" 
+                id="profile-gallery-img"
+                >
+            </div>
+            <h1 class="text-xl font-bold mt-2 text-yellow-400">حاج اسدالله تقی زاده</h1>
+            </div>
+
+            <div id="profile-gallery-modal" class="profile-gallery-modal">
+            <div class="profile-gallery-modal-content">
+                <button class="profile-gallery-btn-close" id="profile-gallery-closeBtn">&times;</button>
+                <button class="profile-gallery-btn prev" id="profile-gallery-prevBtn">&#10094;</button>
+                <img id="profile-gallery-modal-img" src="" alt="عکس بزرگ" />
+                <button class="profile-gallery-btn next" id="profile-gallery-nextBtn">&#10095;</button>
+            </div>
+            </div>
+
+            
+            <!-- Stats Section -->
+            <div class="bg-gray-100 p-4 rounded-lg mt-6">
+              <div class="grid grid-cols-3 gap-4 text-gray-900">
+                <div class="p-4 rounded-lg flex flex-col items-center">
+                  <p class="text-lg font-bold">قرائت یس</p>
+                  <span class="value" id="val-var1">درحال بارگذاری...</span><button class= "w-8 h-8 bg-white border-2 border-gray-700 rounded-lg text-gray-700 text-xl flex items-center justify-center action-button" data-var="var1">+</button>
+                </div>
+                <div class="p-4 rounded-lg flex flex-col items-center">
+                  <p class="text-lg font-bold">قرائت فاتحه</p>
+                  <span class="value" id="val-var2">درحال بارگذاری...</span><button class= "w-8 h-8 bg-white border-2 border-gray-700 rounded-lg text-gray-700 text-xl flex items-center justify-center action-button" data-var="var2">+</button>
+                </div>
+                <div class="p-4 rounded-lg flex flex-col items-center">
+                  <p class="text-lg font-bold">ذکر صلوات</p>
+                  <span class="value" id="val-var3">درحال بارگذاری...</span><button class= "w-8 h-8 bg-white border-2 border-gray-700 rounded-lg text-gray-700 text-xl flex items-center justify-center action-button" data-var="var3">+</button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <div class="tabs-container mt-6">
+              <button class="tab-button" onclick="showTabContent('film')">تصاویر متوفی</button>
+              <button class="tab-button" onclick="showTabContent('Quran')">ختم قرآن</button>
+              <button class="tab-button" onclick="showTabContent('Prays')">ادعیه آسمانی</button>
+              <button class="tab-button" onclick="showTabContent('Notestab')">دل نوشته ها</button>
+              <button class="tab-button" onclick="showTabContent('share')">اشتراک گذاری</button>
+            </div>
+            
+            <!-- Tab Contents -->
+            <div id="share" class="tab-content">
+                <h2 class="text-lg font-bold mb-4">تصویر بارکد این صفحه</h2>
+                <div class="img-container" style="display: inline-block;">
+                  <div class="spinner"></div>
+                  <img src="https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/QRcode.png" alt="Biography Image" class="rounded-lg shadow-lg" style="width: 200px; display: block; margin: 0 auto;" onload="this.previousElementSibling.style.display='none'">
+                </div>
+                
+
+            </div>
+
+            <div id="Notestab" class="tab-content">
+                
+                <textarea id="content" placeholder="دل‌نوشته‌ات را بنویس..." maxlength="120"></textarea><br />
+                <button id="NotessaveBtn">ذخیره دل‌نوشته</button>
+
+                <div id="notes"></div>
+                
+
+            </div>
+            
+            <!-- Film Gallery Tab -->
+            <div id="film" class="tab-content active-tab">
+              <div class="gallery" data-images='[
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/01.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/02.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/03.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/04.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/05.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/06.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/07.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/08.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/09.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/10.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/11.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/12.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/13.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/14.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/15.jpg"
+              ]'>
+                <div class="spinner"></div>
+                <img alt="Slide Image" loading="lazy">
+                <button class="prev">&#10094;</button>
+                <button class="next">&#10095;</button>
+                <div class="dots"></div>
+              </div>
+            </div>
+            
+            
+            <!-- Quran Tabs -->
+            <div id="Quran" class="tab-content">
+            <h2 class="text-lg font-bold mb-4">قرآن</h2>
+            
+            <img id="quranImage"
+                src="https://www.yadeo.ir/media/quran_pages/QuranDaneshAmouzi-001.jpg"
+                alt="صفحه قرآن">
+
+            <audio id="quranAudio" controls>
+                <source src="https://www.yadeo.ir/media/quran_sound/Page001.mp3" type="audio/mpeg">
+                مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
+            </audio>
+
+            <button data-var="var4" onclick="updateContent()">خواندم</button>
+             <span class="value style: hidden" id="val-var4">درحال بارگذاری ...</span><button class= "style: hidden" data-var="var4">+</button>
+            </div>
+
+
+            <!-- Prays Tabs -->
+           <div id="Prays" class="tab-content">
+
+
+            <select id="prayerSelect" class="w-full p-3 rounded-xl bg-black border border-yellow-500 shadow-md text-yellow-400 font-semibold text-lg focus:ring-2 focus:ring-yellow-500 hover:border-yellow-400 transition-all duration-200">
+                <option value="">-- دعا را انتخاب کنید --</option>
+                <option value="22563382336">دعای کمیل</option>
+                <option value="25306786704">سوره یاسین</option>
+                <option value="77790668734">سوره الرحمن</option>
+                <option value="37495468652">دعای فرج</option>
+                <option value="15310558190">دعای عهد</option>
+                <option value="75431856343">دعای مجیر</option>
+                <option value="71339878342">دعای ندبه</option>
+            </select>
+
+            </div>
+
+            <div id="Prays">
+                <div id="22563382336"></div>
+                <div id="25306786704"></div>
+                <div id="77790668734"></div>
+                <div id="37495468652"></div>
+                <div id="15310558190"></div>
+                <div id="75431856343"></div>
+                <div id="71339878342"></div>
+
+            </div>
+
+
+           <!-- ویدیوی سمت چپ -->
+            <div class="video-container video-left">
+                <video autoplay muted loop playsinline>
+                <source src="https://sarvari1378.github.io/MemorialQR_Codes/Elements/candel.webm" type="video/webm">
+                مرورگر شما از ویدیو پشتیبانی نمی‌کند.
+                </video>
+            </div>
+
+            <!-- ویدیوی سمت چپ -->
+            <div class="cheragh-container ">
+                <video autoplay muted loop playsinline>
+                <source src="https://sarvari1378.github.io/MemorialQR_Codes/Elements/light.webm" type="video/webm">
+                مرورگر شما از ویدیو پشتیبانی نمی‌کند.
+                </video>
+            </div>
+
+          
+          <!-- Footer Section -->
+          <footer>
+            <p>چاپ ترنج (بهمنی مقدم) ۰۹۱۵۲۱۸۴۰۱۹</p>
+          </footer>
+
+          <audio id="myAudio" crossorigin="anonymous" src="https://sarvari1378.github.io/MemorialQR_Codes/Imagees/Taghizade/StartAudio.mp3" preload="auto"></audio>
+
+<div id="myAudioFooter">
+  <button id="myControlBtn" title="پخش / توقف" aria-label="پخش / توقف">
+    <!-- دکمه پخش (پیش فرض) -->
+    <svg id="myPlayIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
+      <path d="M8 5v14l11-7z"/>
+    </svg>
+    <!-- دکمه توقف، ابتدا مخفی -->
+    <svg id="myPauseIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+    </svg>
+  </button>
+  <div id="myVisualizer"></div>
+</div>
+
+
+          
+          <!-- Generic Photo Gallery Script with Swipe Animation, Dots, and Image Caching -->
+          <script>
+            document.addEventListener("DOMContentLoaded", function(){
+              // Global cache for images that have already loaded
+              let loadedImagesCache = {};
+          
+              document.querySelectorAll('.gallery').forEach(function(gallery){
+                let images;
+                try {
+                  images = JSON.parse(gallery.getAttribute('data-images'));
+                } catch (e) {
+                  console.error("Error parsing images data:", e);
+                  return;
+                }
+                let index = 0;
+                const imgEl = gallery.querySelector('img');
+                const nextBtn = gallery.querySelector('.next');
+                const prevBtn = gallery.querySelector('.prev');
+                const spinner = gallery.querySelector('.spinner');
+                const dotsContainer = gallery.querySelector('.dots');
+          
+                // Create navigation dots for each image in the gallery.
+                images.forEach((_, idx) => {
+                  const dot = document.createElement('div');
+                  dot.className = 'dot' + (idx === 0 ? ' active' : '');
+                  dot.addEventListener('click', function(){
+                    if (idx !== index) {
+                      transitionToImage(idx, idx > index ? "next" : "prev");
+                    }
+                  });
+                  dotsContainer.appendChild(dot);
+                });
+          
+                function updateDots() {
+                  const dots = dotsContainer.querySelectorAll('.dot');
+                  dots.forEach((dot, idx) => {
+                    dot.classList.toggle('active', idx === index);
+                  });
+                }
+          
+                function preloadNext() {
+                  const nextIndex = (index + 1) % images.length;
+                  const preloadedImg = new Image();
+                  preloadedImg.src = images[nextIndex];
+                }
+          
+                function transitionToImage(newIndex, direction) {
+                  const newImageURL = images[newIndex];
+                  // Only show spinner if this image has not been loaded before.
+                  if (!loadedImagesCache[newImageURL]) {
+                    spinner.style.display = "block";
+                  } else {
+                    spinner.style.display = "none";
+                  }
+                  // Slide out the current image.
+                  if (direction === "next") {
+                    imgEl.style.transition = "transform 0.5s ease";
+                    imgEl.style.transform = "translateX(-100%)";
+                  } else {
+                    imgEl.style.transition = "transform 0.5s ease";
+                    imgEl.style.transform = "translateX(100%)";
+                  }
+                  setTimeout(() => {
+                    // Update index and image source.
+                    index = newIndex;
+                    imgEl.src = newImageURL;
+                    updateDots();
+                    // If image is cached, hide spinner immediately.
+                    if (loadedImagesCache[newImageURL]) {
+                      spinner.style.display = "none";
+                    }
+                    // Prepare the image off-screen for the slide-in effect.
+                    if (direction === "next") {
+                      imgEl.style.transition = "none";
+                      imgEl.style.transform = "translateX(100%)";
+                    } else {
+                      imgEl.style.transition = "none";
+                      imgEl.style.transform = "translateX(-100%)";
+                    }
+                    // Force reflow.
+                    void imgEl.offsetWidth;
+                    // Slide the image into view.
+                    imgEl.style.transition = "transform 0.5s ease";
+                    imgEl.style.transform = "translateX(0)";
+                    preloadNext();
+                  }, 500);
+                }
+          
+                nextBtn.addEventListener("click", function(){
+                  const newIndex = (index + 1) % images.length;
+                  transitionToImage(newIndex, "next");
+                });
+                prevBtn.addEventListener("click", function(){
+                  const newIndex = (index - 1 + images.length) % images.length;
+                  transitionToImage(newIndex, "prev");
+                });
+          
+                // When the image loads, mark it as cached.
+                imgEl.addEventListener("load", function(){
+                  loadedImagesCache[imgEl.src] = true;
+                  spinner.style.display = "none";
+                });
+          
+                // Initialize gallery.
+                imgEl.src = images[index];
+                preloadNext();
+              });
+              
+              // For non-gallery images, hide spinner when loaded.
+              document.querySelectorAll('.img-container img').forEach(function(image){
+                image.addEventListener("load", function(){
+                  let sp = image.parentElement.querySelector('.spinner');
+                  if(sp) sp.style.display = "none";
+                });
+              });
+            });
+          </script>
+          
+          <!-- Button Click Animations -->
+          <script>
+            document.querySelectorAll('.action-button').forEach(button => {
+              button.addEventListener('click', function () {
+                this.classList.add('clicked');
+                setTimeout(() => this.classList.remove('clicked'), 100);
+              });
+            });
+            document.querySelectorAll('.icon-button').forEach(button => {
+              button.addEventListener('click', function () {
+                this.classList.add('clicked');
+                setTimeout(() => this.classList.remove('clicked'), 100);
+              });
+            });
+          </script>
+
+         <!-- Quran page logic -->
+        <script>
+    // شماره صفحه فعلی
+    let currentPage = parseInt(document.getElementById("val-var4")?.textContent.trim() || "1", 10);
+
+    
+    // تعداد صفحات قرآن (مثلاً 604 صفحه)
+    const totalPages = 604;
+
+    // تابع برای به‌روزرسانی محتوا
+    function updateContent() {
+  const valElement = document.getElementById("val-var4");
+  const valText = valElement ? valElement.textContent.trim() : "0";
+  const parsedPage = parseInt(valText, 10);
+
+  if (isNaN(parsedPage)) {
+    alert('مقدار صفحه معتبر نیست!');
+    return;
+  }
+
+  let currentPage = parsedPage;
+
+  if (currentPage >= totalPages) {
+    alert('به پایان قرآن رسیدید!');
+    return;
+  }
+
+  currentPage++;
+
+  // بارگذاری تصویر صفحه جدید
+  document.getElementById("quranImage").src =
+    `https://www.yadeo.ir/media/quran_pages/QuranDaneshAmouzi-${String(currentPage).padStart(3, '0')}.jpg`;
+
+  // بارگذاری صدای صفحه جدید
+  const audio = document.getElementById("quranAudio");
+  audio.src =
+    `https://www.yadeo.ir/media/quran_sound/Page${String(currentPage).padStart(3, '0')}.mp3`;
+  audio.load();
+
+  // به‌روزرسانی مقدار در span
+  valElement.textContent = currentPage;
+}
+
+        </script>
+
+
+
+
+        <!-- profile page logic -->
+        <script>
+  const images = [
+    "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/Profile2.jpg"
+  ];
+
+  const profileImg = document.getElementById('profile-gallery-img');
+  const modal = document.getElementById('profile-gallery-modal');
+  const modalImg = document.getElementById('profile-gallery-modal-img');
+  const closeBtn = document.getElementById('profile-gallery-closeBtn');
+  const prevBtn = document.getElementById('profile-gallery-prevBtn');
+  const nextBtn = document.getElementById('profile-gallery-nextBtn');
+
+  let currentIndex = 0;
+
+  profileImg.addEventListener('click', () => {
+    currentIndex = 0;
+    showImage(currentIndex);
+    modal.classList.add('active');
+  });
+
+  function showImage(index) {
+    modalImg.src = images[index];
+  }
+
+  closeBtn.addEventListener('click', () => {
+    modal.classList.remove('active');
+  });
+
+  prevBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    showImage(currentIndex);
+  });
+
+  nextBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % images.length;
+    showImage(currentIndex);
+  });
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('active');
+    }
+  });
+        </script>
+
+         <!-- variables worker logic -->
+<script>
+const baseUrl = 'https://variable.cobaka6220.workers.dev';
+
+const buffers = {};  // نگه داشتن کلیک‌ها
+const lastSent = {}; // جلوگیری از ارسال همزمان
+
+// گرفتن مقدار اولیه
+async function getValue(varName) {
+  try {
+    const res = await fetch(`${baseUrl}/${varName}/get`);
+    const data = await res.json();
+    return parseInt(data.value) || 0;
+  } catch (e) {
+    console.error(e);
+    return 0;
+  }
+}
+
+// ارسال مجموع کلیک‌ها
+async function flushBuffer(varName) {
+  if (!buffers[varName] || buffers[varName] === 0 || lastSent[varName]) return;
+
+  const clicks = buffers[varName];
+  buffers[varName] = 0;
+  lastSent[varName] = true;
+
+  try {
+    const current = await getValue(varName);
+    const newVal = current + clicks;
+
+    const res = await fetch(`${baseUrl}/${varName}/post/${newVal}`, {
+      method: 'POST',
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      document.getElementById('val-' + varName).textContent = data.value;
+    } else {
+      throw new Error('POST failed');
+    }
+  } catch (e) {
+    console.error('ارسال ناموفق:', e);
+    buffers[varName] = clicks; // کلیک‌ها رو دوباره توی صف بذار
+  } finally {
+    lastSent[varName] = false;
+  }
+}
+
+// هر دکمه رو آماده می‌کنیم
+document.querySelectorAll('button[data-var]').forEach(btn => {
+  const varName = btn.getAttribute('data-var');
+  const valSpan = document.getElementById('val-' + varName);
+
+  // مقدار اولیه
+  getValue(varName).then(val => valSpan.textContent = val);
+
+  buffers[varName] = 0;
+
+  // هر بار کلیک:
+  btn.addEventListener('click', () => {
+    buffers[varName]++;
+    const current = parseInt(valSpan.textContent) || 0;
+    valSpan.textContent = current + 1;
+  });
+
+  // هر 1 ثانیه flush کنیم
+  setInterval(() => flushBuffer(varName), 1000);
+});
+</script>
+
+ <!-- Quran page logic -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const indexElement = document.getElementById("val-var4");
+  const img = document.getElementById("quranImage");
+  const audio = document.getElementById("quranAudio");
+  const audioSource = audio.querySelector("source");
+
+  if (!indexElement || !img || !audioSource) return;
+
+  const loadMedia = () => {
+    let content = indexElement.textContent.trim();
+    if (content === "درحال بارگذاری ...") return;
+
+    let pageIndex = parseInt(content);
+    if (isNaN(pageIndex) || pageIndex < 1 || pageIndex > 604) {
+      pageIndex = 1; // fallback
+    }
+
+    const padded = String(pageIndex).padStart(3, '0');
+    img.src = `https://www.yadeo.ir/media/quran_pages/QuranDaneshAmouzi-${padded}.jpg`;
+    audioSource.src = `https://www.yadeo.ir/media/quran_sound/Page${padded}.mp3`;
+    audio.load();
+  };
+
+  // اگر مقدار آماده بود، بلافاصله اجرا کن
+  if (indexElement.textContent.trim() !== "درحال بارگذاری ...") {
+    loadMedia();
+  } else {
+    // اگر آماده نبود، صبر کن تا مقدار تغییر کنه
+    const observer = new MutationObserver(() => {
+      if (indexElement.textContent.trim() !== "درحال بارگذاری ...") {
+        observer.disconnect(); // دیگه نیازی به گوش دادن نیست
+        loadMedia();
+      }
+    });
+
+    observer.observe(indexElement, { childList: true });
+  }
+});
+</script>
+
+
+<audio id="myAudio" preload="auto">
+  <source src="https://github.com/sarvari1378/MemorialQR_Codes/raw/refs/heads/main/Imagees/Taghizade/StartAudio.mp3" type="audio/mpeg">
+</audio>
+
+  <script>
+    const aparatVideos = {
+      "22563382336": "0a67L",
+      "25306786704": "ttky579",
+      "77790668734": "udjsl77",
+      "37495468652": "r88myrr",
+      "15310558190": "w08bmg5",
+      "75431856343": "6Mnwc",
+      "71339878342": "Ko7W4"
+    };
+
+    const select = document.getElementById('prayerSelect');
+
+    select.addEventListener('change', function() {
+      const value = this.value;
+
+      Object.keys(aparatVideos).forEach(id => {
+        const div = document.getElementById(id);
+        if (div) {
+          div.style.display = 'none';
+          div.innerHTML = ''; // پاک کردن ویدیوهای قبلی
+        }
+      });
+
+      if (value && aparatVideos[value]) {
+        const container = document.getElementById(value);
+        if (container) {
+          container.style.display = 'block';
+
+          // ساختن تگ اسکریپت به صورت داینامیک
+          const script = document.createElement('script');
+          script.type = 'text/javascript';
+          script.src = `https://www.aparat.com/embed/${aparatVideos[value]}?data[rnddiv]=${value}&data[responsive]=yes`;
+
+          container.appendChild(script);
+        }
+      }
+    });
+  </script>
+
+
+<script>
+    document.addEventListener('click', function handleClick() {
+      const mainImage = document.getElementById('main-image');
+      const bgImage = document.getElementById('bg-image');
+
+      mainImage.classList.add('hide-main');
+      setTimeout(() => {
+        bgImage.classList.add('hide-bg');
+      }, 150); // کمی تأخیر برای عمق بصری
+
+      setTimeout(() => {
+        mainImage.style.display = 'none';
+        bgImage.style.display = 'none';
+      }, 1200);
+
+      document.removeEventListener('click', handleClick);
+    });
+  </script>
+
+ <!-- Notes Module logic -->
+  <script>
+    const BASE_URL = 'https://notes.cobaka6220.workers.dev'; // آدرس ورکر
+
+    function getUserId() {
+      let userId = localStorage.getItem('userId');
+      if (!userId) {
+        userId = crypto.randomUUID();
+        localStorage.setItem('userId', userId);
+      }
+      return userId;
+    }
+
+    const userId = getUserId();
+
+    async function saveNote() {
+      const content = document.getElementById('content').value.trim();
+      if (!content) {
+        alert('دل‌نوشته نمی‌تواند خالی باشد');
+        return;
+      }
+      try {
+        const res = await fetch(BASE_URL + '/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ content, userId }),
+        });
+        if (!res.ok) {
+          alert('خطا در ذخیره دل‌نوشته: ' + res.status);
+          return;
+        }
+        document.getElementById('content').value = '';
+        await loadNotes();
+      } catch (e) {
+        alert('خطا در ذخیره دل‌نوشته: ' + e.message);
+      }
+    }
+
+    async function loadNotes() {
+      const notesDiv = document.getElementById('notes');
+      notesDiv.innerHTML = 'در حال بارگذاری دل‌نوشته‌ها...';
+      try {
+        const res = await fetch(BASE_URL + '/list');
+        if (!res.ok) throw new Error('خطا در دریافت لیست');
+        const notes = await res.json();
+
+        if (notes.length === 0) {
+          notesDiv.innerHTML = 'هیچ دل‌نوشته‌ای وجود ندارد.';
+          return;
+        }
+
+        notesDiv.innerHTML = '';
+        notes.forEach(note => {
+          const div = document.createElement('div');
+          div.className = 'note';
+
+          div.innerHTML = `
+            <div>${note.content.replace(/\n/g, '<br>')}</div>
+            <small>زمان ذخیره: ${new Date(note.timestamp).toLocaleString('fa-IR')}</small>
+          `;
+
+          if (note.userId === userId) {
+            const btn = document.createElement('button');
+            btn.className = 'delete-btn';
+            btn.textContent = 'حذف';
+            btn.onclick = () => deleteNote(note.timestamp);
+            div.appendChild(btn);
+          }
+
+          notesDiv.appendChild(div);
+        });
+      } catch (e) {
+        notesDiv.innerHTML = 'خطا در بارگذاری دل‌نوشته‌ها: ' + e.message;
+      }
+    }
+
+    async function deleteNote(key) {
+      if (!confirm('آیا مطمئن هستید که می‌خواهید این دل‌نوشته را حذف کنید؟')) return;
+      try {
+        const res = await fetch(BASE_URL + '/delete?key=' + encodeURIComponent(key), {
+          method: 'DELETE',
+          headers: { 'x-user-id': userId },
+        });
+        if (!res.ok) {
+          alert('خطا در حذف دل‌نوشته: ' + res.status);
+          return;
+        }
+        await loadNotes();
+      } catch (e) {
+        alert('خطا در حذف دل‌نوشته: ' + e.message);
+      }
+    }
+
+    document.getElementById('NotessaveBtn').addEventListener('click', saveNote);
+    loadNotes();
+  </script>
+ <!-- Notes Module text hight logic -->
+<script>
+  const textarea = document.getElementById('content');
+
+  function autoResize() {
+    textarea.style.height = 'auto'; // ریست برای محاسبه مجدد
+    textarea.style.height = textarea.scrollHeight + 'px'; // ارتفاع براساس محتوا
+  }
+
+  textarea.addEventListener('input', autoResize);
+  window.addEventListener('load', autoResize); // بار اول هم تنظیم بشه
+</script>
+
+
+<script>
+  const audio = document.getElementById("myAudio");
+  const footer = document.getElementById("myAudioFooter");
+  const controlBtn = document.getElementById("myControlBtn");
+  const visualizer = document.getElementById("myVisualizer");
+  const playIcon = document.getElementById("myPlayIcon");
+  const pauseIcon = document.getElementById("myPauseIcon");
+
+  const barCount = 60;
+  const bars = [];
+
+  for (let i = 0; i < barCount; i++) {
+    const bar = document.createElement("div");
+    bar.className = "myBar";
+    visualizer.appendChild(bar);
+    bars.push(bar);
+  }
+
+  let audioContext, analyser, source, dataArray;
+
+  function setupAudioContext() {
+    if (!audioContext) {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      analyser = audioContext.createAnalyser();
+      source = audioContext.createMediaElementSource(audio);
+      source.connect(analyser);
+      analyser.connect(audioContext.destination);
+      analyser.fftSize = 128;
+      const bufferLength = analyser.frequencyBinCount;
+      dataArray = new Uint8Array(bufferLength);
+    }
+  }
+
+  function renderVisualizer() {
+    requestAnimationFrame(renderVisualizer);
+    if (!analyser) return;
+
+    analyser.getByteFrequencyData(dataArray);
+    for (let i = 0; i < bars.length; i++) {
+      const value = dataArray[i];
+      const height = (value / 255) * 40;
+      bars[i].style.height = `${height}px`;
+    }
+  }
+
+  let started = false;
+
+  document.addEventListener("click", () => {
+    if (!started) {
+      setupAudioContext();
+      audio.play();
+      renderVisualizer();
+      footer.classList.add("visible");
+      playIcon.style.display = "none";
+      pauseIcon.style.display = "block";
+      started = true;
+    }
+  });
+
+  controlBtn.addEventListener("click", () => {
+    if (audio.paused) {
+      audio.play();
+      playIcon.style.display = "none";
+      pauseIcon.style.display = "block";
+      footer.classList.add("visible");
+    } else {
+      audio.pause();
+      playIcon.style.display = "block";
+      pauseIcon.style.display = "none";
+    }
+  });
+
+  audio.addEventListener("ended", () => {
+    footer.classList.remove("visible");
+    playIcon.style.display = "block";
+    pauseIcon.style.display = "none";
+  });
+</script>
+        </body>
+        </html>
