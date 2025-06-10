@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>تولد موزیکال</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazir&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background-color: #9978d2; /* بنفش */
+      font-family: 'Vazir', sans-serif;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .play-box {
+      width: 200px;
+      height: 200px;
+      background-color: #fff;
+      color: #9978d2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 0;
+      transition: all 0.6s ease;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .play-box.clicked {
+      border-radius: 50%;
+      background-color: #ffcc00;
+      color: #000;
+      transform: scale(1.2);
+    }
+
+    .particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #ffcc00;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: explode 3000ms linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes explode {
+      0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--dx), var(--dy)) scale(0.5);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="play-box" id="playBox">اینجا کلیک کن عزیزم</div>
+
+  <audio id="myAudio">
+    <source src="https://dls.musics-fa.com/tagdl/1402/Shayea%20-%20Behtarin%20Refigh%20(320).mp3" type="audio/mpeg">
+    مرورگر شما از پخش فایل صوتی پشتیبانی نمی‌کند.
+  </audio>
+
+  <script>
+    const audio = document.getElementById('myAudio');
+    const playBox = document.getElementById('playBox');
+    const startTime = 140;
+
+    function createParticle() {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      const dx = (Math.random() - 0.5) * window.innerWidth + 'px';
+      const dy = (Math.random() - 0.5) * window.innerHeight + 'px';
+      particle.style.left = Math.random() * window.innerWidth + 'px';
+      particle.style.top = Math.random() * window.innerHeight + 'px';
+      particle.style.setProperty('--dx', dx);
+      particle.style.setProperty('--dy', dy);
+      document.body.appendChild(particle);
+
+      setTimeout(() => {
+        particle.remove();
+      }, 3000);
+    }
+
+    let particleInterval;
+
+    playBox.addEventListener('click', () => {
+      playBox.classList.add('clicked');
+      playBox.innerText = 'تولدت مبارک عزیزترینم 🎂💖'; // تغییر متن
+
+      audio.currentTime = startTime;
+      audio.play();
+
+      if (!particleInterval) {
+        particleInterval = setInterval(() => {
+          for (let i = 0; i < 10; i++) {
+            createParticle();
+          }
+        }, 300);
+      }
+    }, { once: true });
+  </script>
+
+</body>
+</html>
