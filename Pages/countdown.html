@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>تایمر تا نیمه شب</title>
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      color: #fff;
+      font-family: 'Vazir', sans-serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      direction: rtl;
+    }
+    #countdown {
+      font-size: 2.5em;
+    }
+  </style>
+</head>
+<body>
+  <div id="countdown">در حال بارگذاری...</div>
+
+  <script>
+    const countdownEl = document.getElementById('countdown');
+
+    const target = new Date();
+    target.setHours(24, 0, 0, 0); // ساعت ۲۴ امشب
+
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = target.getTime() - now;
+
+      if (distance <= 0) {
+        clearInterval(interval);
+        countdownEl.textContent = "زمان به پایان رسید!";
+        return;
+      }
+
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdownEl.textContent = `${hours} ساعت ${minutes} دقیقه ${seconds} ثانیه`;
+    }, 1000);
+  </script>
+</body>
+</html>
