@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاج اسدالله تقی زاده</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="edditorstyle.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body class="bg-white text-gray-900">
+
+
+    <!-- Control Sidebar -->
+<div id="control-sidebar" class="control-sidebar">
+    <!-- دکمه باز و بسته کردن بدون تغییر -->
+    <button id="sidebar-toggle-btn" class="sidebar-toggle-btn">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <div class="sidebar-header">
+        <button class="sidebar-tab-btn active" data-tab="general-settings">عمومی</button>
+        <button class="sidebar-tab-btn" data-tab="theme-editor">ویرایش تم</button>
+    </div>
+
+    <div class="sidebar-content">
+        <!-- تب تنظیمات عمومی -->
+        <div id="general-settings" class="sidebar-tab-content active">
+            <div class="sidebar-setting-item">
+                <label for="project-prefix-input">شناسه منحصر به فرد پروژه:</label>
+                <input type="text" id="project-prefix-input" placeholder="مثال: ali-taghizade">
+                <small>فقط از حروف انگلیسی و خط تیره (-) استفاده کنید.</small>
+            </div>
+            
+            <h3 class="sidebar-title">پنل ویرایش</h3>
+            <button id="main-edit-btn" class="sidebar-button">
+                <i class="fas fa-pencil-alt"></i> ویرایش صفحه
+            </button>
+            <button id="export-btn" class="sidebar-button" style="display: none;">
+                <i class="fas fa-download"></i> خروجی HTML
+            </button>
+        </div>
+
+        <!-- تب ویرایشگر تم -->
+        <div id="theme-editor" class="sidebar-tab-content">
+            <h3 class="sidebar-title">ویرایشگر رنگ‌ها</h3>
+            <div id="color-picker-container">
+                <!-- ورودی‌های رنگ به صورت داینامیک اینجا اضافه می‌شوند -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+     <div id="edit-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h3 id="modal-title">ویرایش المان</h3>
+            <!-- این کانتینر با ورودی‌های مناسب پر می‌شود -->
+            <div id="modal-inputs-container"></div>
+            <div class="modal-buttons">
+                <button id="modal-cancel-btn">لغو</button>
+                <button id="modal-save-btn">ذخیره</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto p-6 text-center">
+        <!-- Top Left Icons -->
+        <div editable="true" data-edit-type="button" class="absolute top-4 left-4 flex flex-col space-y-4">
+            <a href="https://maps.app.goo.gl/zZE4CoPZCn2XLUvT6" target="_blank">
+                <button class="p-2 bg-gray-200 rounded-full icon-button">📍</button>
+            </a>
+        </div>
+        
+        <!-- تصویر پس‌زمینه بلور -->
+        <img id="bg-image" class="fullscreen" src="https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/Profile.jpg" alt="Blurry Background">
+
+        <!-- تصویر اصلی -->
+        <img id="main-image" src="https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/Profile.jpg" alt="Main Image">
+
+        <!-- Profile Section -->
+        <div class="profile-gallery-wrapper">
+            <div class="profile-gallery-img-container">
+                <img 
+                src="https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/Profile.jpg" 
+                alt="Profile" 
+                id="profile-gallery-img"
+                >
+            </div>
+            <h1 editable="true" data-edit-type="text" class="text-xl font-bold mt-2 text-yellow-400">حاج اسدالله تقی زاده</h1>
+        </div>
+
+        <div id="profile-gallery-modal" class="profile-gallery-modal">
+            <div class="profile-gallery-modal-content">
+                <button class="profile-gallery-btn-close" id="profile-gallery-closeBtn">×</button>
+                <button class="profile-gallery-btn prev" id="profile-gallery-prevBtn">❮</button>
+                <img id="profile-gallery-modal-img" src="" alt="عکس بزرگ" />
+                <button class="profile-gallery-btn next" id="profile-gallery-nextBtn">❯</button>
+            </div>
+        </div>
+        
+        <!-- Stats Section -->
+        <div class="bg-gray-100 p-4 rounded-lg mt-6">
+            <div class="grid grid-cols-3 gap-4 text-gray-900">
+                <div class="p-4 rounded-lg flex flex-col items-center">
+                    <p editable="true" data-edit-type="text" class="text-lg font-bold">قرائت یس</p>
+                    <span class="value" id="val-var1">درحال بارگذاری...</span><button class= "w-8 h-8 bg-white border-2 border-gray-700 rounded-lg text-gray-700 text-xl flex items-center justify-center action-button" data-var="var1">+</button>
+                </div>
+                <div class="p-4 rounded-lg flex flex-col items-center">
+                    <p editable="true" data-edit-type="text" class="text-lg font-bold">قرائت فاتحه</p>
+                    <span class="value" id="val-var2">درحال بارگذاری...</span><button class= "w-8 h-8 bg-white border-2 border-gray-700 rounded-lg text-gray-700 text-xl flex items-center justify-center action-button" data-var="var2">+</button>
+                </div>
+                <div class="p-4 rounded-lg flex flex-col items-center">
+                    <p editable="true" data-edit-type="text" class="text-lg font-bold">ذکر صلوات</p>
+                    <span class="value" id="val-var3">درحال بارگذاری...</span><button class= "w-8 h-8 bg-white border-2 border-gray-700 rounded-lg text-gray-700 text-xl flex items-center justify-center action-button" data-var="var3">+</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation Tabs -->
+        <div class="tabs-container mt-6">
+            <button editable="true" data-edit-type="text" class="tab-button" onclick="showTabContent('film')">تصاویر متوفی</button>
+            <button editable="true" data-edit-type="text" class="tab-button" onclick="showTabContent('Quran')">ختم قرآن</button>
+            <button editable="true" data-edit-type="text" class="tab-button" onclick="showTabContent('Prays')">ادعیه آسمانی</button>
+            <button editable="true" data-edit-type="text" class="tab-button" onclick="showTabContent('Notestab')">دل نوشته ها</button>
+            <button editable="true" data-edit-type="text" class="tab-button" onclick="showTabContent('share')">اشتراک گذاری</button>
+        </div>
+        
+        <!-- Tab Contents -->
+        <div id="share" class="tab-content">
+            <h2 class="text-lg font-bold mb-4">تصویر بارکد این صفحه</h2>
+            <div class="img-container" style="display: inline-block;">
+                <div class="spinner"></div>
+                <img src="https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/QRcode.png" alt="Biography Image" class="rounded-lg shadow-lg" style="width: 200px; display: block; margin: 0 auto;" onload="this.previousElementSibling.style.display='none'">
+            </div>
+        </div>
+
+        <div id="Notestab" class="tab-content">
+            <textarea id="content" placeholder="دل‌نوشته‌ات را بنویس..." maxlength="120"></textarea><br />
+            <button id="NotessaveBtn">ذخیره دل‌نوشته</button>
+            <div id="notes"></div>
+        </div>
+        
+        <!-- Film Gallery Tab -->
+        <div  id="film" class="tab-content active-tab">
+            <div editable="true" data-edit-type="gallery" class="gallery" data-images='[
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/01.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/02.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/03.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/04.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/05.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/06.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/07.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/08.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/09.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/10.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/11.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/12.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/13.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/14.jpg",
+                "https://raw.githubusercontent.com/sarvari1378/MemorialQR_Codes/main/Imagees/Taghizade/15.jpg"
+            ]'>
+                <div class="spinner"></div>
+                <img alt="Slide Image" loading="lazy">
+                <button class="prev">❮</button>
+                <button class="next">❯</button>
+                <div class="dots"></div>
+            </div>
+            <div editable="true" data-edit-type="video" style="width: 100%; max-width: 600px; margin: auto;">
+                <video controls style="width: 100%; border-radius: 8px;">
+                    <source src="https://sarvari1378.github.io/MemorialQR_Codes/Imagees/Taghizade/video01.mp4" type="video/mp4">
+                    مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
+                </video>
+            </div>
+        </div>
+        
+        <!-- Quran Tabs -->
+        <div id="Quran" class="tab-content">
+            <h2 class="text-lg font-bold mb-4">قرآن</h2>
+            <img id="quranImage" src="https://www.yadeo.ir/media/quran_pages/QuranDaneshAmouzi-001.jpg" alt="صفحه قرآن">
+            <audio id="quranAudio" controls>
+                <source src="https://www.yadeo.ir/media/quran_sound/Page001.mp3" type="audio/mpeg">
+                مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
+            </audio>
+            <button data-var="var4" onclick="updateContent()">خواندم</button>
+            <span class="value" style="display: none;" id="val-var4">درحال بارگذاری ...</span>
+            <button class="action-button" style="display: none;" data-var="var4">+</button>
+        </div>
+
+        <!-- Prays Tabs -->
+        <div id="Prays" class="tab-content">
+            <select id="prayerSelect" class="w-full p-3 rounded-xl bg-black border border-yellow-500 shadow-md text-yellow-400 font-semibold text-lg focus:ring-2 focus:ring-yellow-500 hover:border-yellow-400 transition-all duration-200">
+                <option value="">-- دعا را انتخاب کنید --</option>
+                <option value="22563382336">دعای کمیل</option>
+                <option value="25306786704">سوره یاسین</option>
+                <option value="77790668734">سوره الرحمن</option>
+                <option value="37495468652">دعای فرج</option>
+                <option value="15310558190">دعای عهد</option>
+                <option value="75431856343">دعای مجیر</option>
+                <option value="71339878342">دعای ندبه</option>
+            </select>
+        </div>
+
+        <div id="PraysContainer">
+            <div id="22563382336"></div>
+            <div id="25306786704"></div>
+            <div id="77790668734"></div>
+            <div id="37495468652"></div>
+            <div id="15310558190"></div>
+            <div id="75431856343"></div>
+            <div id="71339878342"></div>
+        </div>
+
+        <!-- ویدیوی سمت چپ -->
+        <div class="video-container video-left">
+            <video autoplay muted loop playsinline>
+                <source src="https://sarvari1378.github.io/MemorialQR_Codes/Elements/candel.webm" type="video/webm">
+                مرورگر شما از ویدیو پشتیبانی نمی‌کند.
+            </video>
+        </div>
+
+        <!-- ویدیوی سمت راست -->
+        <div class="cheragh-container">
+            <video autoplay muted loop playsinline>
+                <source src="https://sarvari1378.github.io/MemorialQR_Codes/Elements/light.webm" type="video/webm">
+                مرورگر شما از ویدیو پشتیبانی نمی‌کند.
+            </video>
+        </div>
+    </div>
+    
+    <!-- Footer Section -->
+    <footer>
+        <h1 editable="true" data-edit-type="text" class="text-xl font-bold mt-2 text-yellow-400">اگر مثل این صفحه برای عزیزت میخوای باهام تماس بگیر چاپ ترنج (بهمنی مقدم) ۰۹۱۵۲۱۸۴۰۱۹</h1>
+    </footer>
+
+    <audio id="myAudio" crossorigin="anonymous" src="https://sarvari1378.github.io/MemorialQR_Codes/Imagees/Taghizade/StartAudio.mp3" preload="auto"></audio>
+
+    <div id="myAudioFooter">
+        <button id="myControlBtn" title="پخش / توقف" aria-label="پخش / توقف">
+            <svg id="myPlayIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 5v14l11-7z"/>
+            </svg>
+            <svg id="myPauseIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+            </svg>
+        </button>
+        <div id="myVisualizer"></div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="edditorscript.js"></script>
+</body>
+</html>
