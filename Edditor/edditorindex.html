@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ویرایشگر نهایی و پایدار</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="control-panel">
+        <button id="main-edit-btn">
+            <i class="fas fa-pencil-alt"></i> ویرایش صفحه
+        </button>
+        <button id="export-btn" class="export-button" style="display: none;">
+            <i class="fas fa-download"></i> خروجی گرفتن (HTML)
+        </button>
+    </div>
+
+    <div class="container">
+        <h1 editable="true" data-edit-type="text">این یک عنوان زیباست</h1>
+        <p editable="true" data-edit-type="text">
+            این یک پاراگراف است. با ورود به حالت ویرایش، می‌توانید این المان‌ها را تغییر دهید.
+        </p>
+        
+        <!-- پوشش تصویر برای ویرایش صحیح -->
+        <div class="editable-image-wrapper" editable="true" data-edit-type="image">
+            <img src="test-image.jpg" alt="تصویر نمونه محلی" style="max-width: 100%; display: block;">
+        </div>
+
+        <div class="editable-button-wrapper" editable="true" data-edit-type="button">
+            <a href="/contact-us">
+                <button class="my-custom-button">تماس با ما</button>
+            </a>
+        </div>
+
+
+        
+        <div class="video-container" editable="true" data-edit-type="video">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <!-- ===== ساختار کامل و صحیح Modal که حتما باید وجود داشته باشد ===== -->
+    <div id="edit-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h3 id="modal-title">ویرایش المان</h3>
+            <!-- این کانتینر با ورودی‌های مناسب پر می‌شود -->
+            <div id="modal-inputs-container"></div>
+            <div class="modal-buttons">
+                <button id="modal-cancel-btn">لغو</button>
+                <button id="modal-save-btn">ذخیره</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="script2.js"></script>
+
+</body>
+</html>

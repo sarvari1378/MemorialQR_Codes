@@ -1,0 +1,503 @@
+/* =============================================== */
+/*          CSS Variables for Theme Editor         */
+/* =============================================== */
+:root {
+    /* رنگ‌های اصلی تم تیره */
+    --theme-primary-text: #FFD700;      /* رنگ اصلی متن (زرد طلایی) */
+    --theme-primary-bg: #202020;        /* رنگ پس‌زمینه اصلی (خاکستری تیره) */
+    --theme-secondary-bg: #1a1a1a;      /* رنگ پس‌زمینه ثانویه (برای تب‌ها و فوتر) */
+    --theme-accent: #ff7b00;            /* رنگ تاکید (برای هاور و ...) */
+    
+    /* رنگ‌های مربوط به گالری و دکمه‌ها */
+    --theme-gallery-border: #FFD700;    /* رنگ حاشیه گالری */
+    --theme-gallery-dot-border: #FFD700;/* رنگ حاشیه دات‌های گالری */
+    --theme-gallery-dot-active: #FFD700;/* رنگ دات فعال گالری */
+    --theme-button-bg: #FFD700;         /* رنگ پس‌زمینه دکمه‌ها */
+    --theme-button-text: #111;          /* رنگ متن دکمه‌ها */
+    --theme-spinner-top: #FFD700;       /* رنگ لودر اسپینر */
+
+    /* رنگ‌های مربوط به بخش آمار (که در تم روشن استفاده می‌شود) */
+    /* اینها را می‌توانید بعداً برای تم روشن/تیره داینامیک کنید */
+    --stats-bg: #f8f9fa;
+    --stats-text: #343a40;
+
+    /* رنگ‌های مربوط به پلیر صوتی فوتر */
+    --footer-player-bg: white;
+    --footer-player-bar: #3498db;
+    --footer-player-icon: #3498db;
+    --footer-player-icon-hover: #1d6fa5;
+
+    /* رنگ‌های مربوط به دل‌نوشته‌ها */
+    --note-bg: white;
+    --note-text: black;
+    --note-delete-btn-bg: #f44336;
+    --note-delete-btn-hover-bg: #d32f2f;
+}
+
+
+/* =============================================== */
+/*                 General Styles                  */
+/* =============================================== */
+@font-face {
+    font-family: 'CustomFont';
+    src: url('https://raw.githubusercontent.com/sarvari1378/Files/main/Vazirmatn-Regular.woff2') format('woff2');
+}
+
+body {
+    font-family: 'CustomFont', sans-serif;
+    background-color: var(--theme-primary-bg) !important;
+    color: var(--theme-primary-text);
+}
+
+/* Action & Tab Button Animation */
+.action-button, .icon-button {
+    transition: transform 0.2s ease-in-out, background-color 0.3s ease;
+}
+
+.tab-button {
+    color: var(--theme-primary-text);
+}
+
+.action-button.clicked, .icon-button.clicked {
+    transform: scale(1.1);
+    background-color: var(--theme-button-bg);
+    color: var(--theme-primary-text); /* متن دکمه کلیک شده */
+    border: 2px solid white;
+}
+
+.tab-button:hover {
+    color: var(--theme-accent);
+    transform: scale(1.1);
+}
+
+/* Tabs Layout */
+.tabs-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex;
+    gap: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+.tabs-container::-webkit-scrollbar {
+    display: none;
+}
+
+.tab {
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: var(--theme-primary-text);
+}
+
+.tab-content {
+    display: none;
+    padding: 1rem;
+    background: var(--theme-secondary-bg);
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+    color: var(--theme-primary-text);
+}
+
+.active-tab {
+    display: block;
+}
+
+#Quran.active-tab, #Prays.active-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 100vh;
+    gap: 20px;
+}
+
+/* Gallery Styles */
+.gallery {
+    position: relative;
+    width: 90%;
+    max-width: 600px;
+    aspect-ratio: 3 / 2;
+    margin: 20px auto;
+    overflow: hidden;
+    border: 2px solid var(--theme-gallery-border);
+    border-radius: 8px;
+    background: #000; /* پس‌زمینه گالری معمولا تیره است */
+}
+
+.gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    transform: translateX(0);
+}
+
+.gallery .dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+}
+
+.gallery .dot {
+    width: 12px;
+    height: 12px;
+    background-color: #111;
+    border: 2px solid var(--theme-gallery-dot-border);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.gallery .dot.active {
+    background-color: var(--theme-gallery-dot-active);
+    transform: scale(1.2);
+}
+
+.gallery button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--theme-button-bg);
+    color: var(--theme-button-text);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
+    z-index: 2;
+}
+
+.gallery button:hover {
+    background-color: var(--theme-button-text);
+    color: var(--theme-button-bg);
+    border: 2px solid var(--theme-button-bg);
+}
+
+.gallery .prev { left: 10px !important; }
+.gallery .next { right: 10px !important; }
+
+/* Spinner for loading images */
+.spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 4px solid #444;
+    border-top: 4px solid var(--theme-spinner-top);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Footer Styles */
+footer {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: var(--theme-secondary-bg);
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--theme-primary-text);
+}
+
+#Quran button {
+    background-color: var(--theme-button-bg);
+    color: var(--theme-button-text);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.right-column {
+    color: var(--theme-primary-text);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Profile Gallery Styles */
+.profile-gallery-img-container img {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    display: block;
+    margin: 0 auto;
+}
+.profile-gallery-img-container img:hover {
+    transform: scale(1.1);
+}
+
+.profile-gallery-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    align-items: center;
+    justify-content: center;
+}
+.profile-gallery-modal.active {
+    display: flex;
+}
+.profile-gallery-modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 80%;
+}
+.profile-gallery-modal-content img {
+    max-width: 100%;
+    max-height: 80vh;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(255,255,255,0.3);
+}
+
+.profile-gallery-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--theme-button-bg);
+    color: var(--theme-button-text);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
+    z-index: 2;
+}
+.profile-gallery-btn:hover {
+    background: rgba(255,255,255,0.6);
+}
+.profile-gallery-btn.prev { left: -50px; }
+.profile-gallery-btn.next { right: -50px; }
+.profile-gallery-btn-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: transparent;
+    font-size: 2rem;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+/* Footer Audio Player Styles */
+#myAudioFooter {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: var(--footer-player-bg);
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    box-sizing: border-box;
+    transition: transform 0.4s ease;
+    z-index: 1000;
+    transform: translateY(100%);
+}
+#myAudioFooter.visible {
+    transform: translateY(0);
+}
+#myVisualizer {
+    display: flex;
+    gap: 4px;
+    height: 40px;
+    align-items: flex-end;
+    flex: 1;
+    margin: 0 12px;
+}
+.myBar {
+    width: 3px;
+    height: 5px;
+    background: var(--footer-player-bar);
+    border-radius: 2px;
+    transition: height 0.1s ease;
+}
+#myControlBtn {
+    background: transparent;
+    border: none;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+#myControlBtn svg {
+    fill: var(--footer-player-icon);
+    width: 28px;
+    height: 28px;
+    transition: fill 0.3s ease;
+}
+#myControlBtn:hover svg {
+    fill: var(--footer-player-icon-hover);
+}
+
+/* Notes Styles */
+.note {
+    background-color: var(--note-bg);
+    color: var(--note-text);
+    border-radius: 12px;
+    padding: 1em;
+    margin: 1em 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.note small {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    font-size: 0.8em;
+    color: var(--note-text);
+    opacity: 0.7;
+}
+
+.note div {
+    white-space: pre-wrap;
+    line-height: 1.6;
+    margin-top: 1.5em;
+}
+.delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background-color: var(--note-delete-btn-bg);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 0.8em;
+    transition: background-color 0.2s ease;
+}
+
+.delete-btn:hover {
+    background-color: var(--note-delete-btn-hover-bg);
+}
+textarea#content {
+    width: 100%;
+    min-height: 60px;
+    resize: none;
+    padding: 10px;
+    font-family: Tahoma, sans-serif;
+    font-size: 1em;
+    background-color: var(--note-bg);
+    color: var(--note-text);
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    overflow-y: hidden;
+    transition: height 0.2s ease;
+}
+
+/* =============================================== */
+/*      Other styles (without color variables)     */
+/* =============================================== */
+.video-container {
+    position: fixed;
+    bottom: 0;
+    width: 20vw;
+    height: auto;
+    pointer-events: none;
+}
+
+.cheragh-container {
+    position: fixed;
+    top: 0;
+    right: 1;
+    width: 20vw;
+    height: auto;
+    pointer-events: none;
+    transform: rotate(-90deg);
+    padding-top: 50px;
+}
+
+.video-left { left: 0; }
+.video-right { right: 0; }
+
+video {
+    width: 100%;
+    height: auto;
+}
+
+#video-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+}
+
+#video-container iframe {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+}
+
+.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    filter: blur(15px);
+    z-index: 9998;
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+}
+
+#main-image {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    max-height: 100vh;
+    width: auto;
+    z-index: 9999;
+    transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+}
+
+.hide-main {
+    transform: translate(-50%, -60%) scale(0.8);
+    opacity: 0;
+}
+
+.hide-bg {
+    transform: scale(1.05);
+    opacity: 0;
+}

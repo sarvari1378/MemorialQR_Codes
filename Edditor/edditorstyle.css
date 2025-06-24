@@ -1,0 +1,540 @@
+:root {
+    --primary-color: #007bff;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+}
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+.container {
+    max-width: 800px;
+    margin: 80px auto; /* فاصله بیشتر از بالا برای پنل کنترل */
+    padding: 20px;
+}
+.control-panel {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+#main-edit-btn, #export-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+#main-edit-btn { background-color: var(--primary-color); color: white; }
+#main-edit-btn:hover { background-color: #0056b3; }
+#main-edit-btn.is-editing { background-color: var(--danger-color); }
+#main-edit-btn.is-editing:hover { background-color: #c82333; }
+#export-btn { background-color: var(--success-color); color: white; }
+#export-btn:hover { background-color: #218838; }
+
+[editable] { position: relative; transition: all 0.2s ease-in-out; }
+body.editing-mode [editable]:hover {
+    outline: 2px solid rgba(0, 123, 255, 0.5);
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+
+
+
+.edit-toolbar {
+    position: fixed;
+    z-index: 1001;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    /* بقیه استایل‌های شما مثل رنگ و پدینگ */
+    background-color: var(--dark-color);
+    color: white;
+    border-radius: 6px;
+    padding: 5px;
+    display: flex;
+    gap: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.edit-toolbar.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+
+
+body.editing-mode [editable]:hover .edit-toolbar,
+body.editing-mode [editable].is-actively-editing .edit-toolbar {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+.toolbar-btn {
+    background: none; border: none; color: white; cursor: pointer;
+    padding: 5px 8px; font-size: 16px; border-radius: 4px; transition: background-color 0.2s;
+}
+.toolbar-btn:hover { background-color: rgba(255,255,255,0.2); }
+.toolbar-btn.confirm { color: var(--success-color); }
+.toolbar-btn.cancel { color: var(--warning-color); }
+
+.is-actively-editing {
+    outline: 2px solid var(--warning-color) !important;
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+}
+
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); display: flex;
+    justify-content: center; align-items: center; z-index: 1001;
+}
+.modal-content {
+    background-color: white; padding: 25px; border-radius: 8px;
+    width: 90%; max-width: 500px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+#modal-title { margin-top: 0; margin-bottom: 20px; }
+#modal-input {
+    width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;
+    margin-bottom: 20px; font-size: 16px; box-sizing: border-box;
+    direction: ltr; text-align: left;
+}
+.modal-buttons { display: flex; justify-content: flex-end; gap: 10px; }
+.modal-buttons button { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+#modal-save-btn { background-color: var(--primary-color); color: white; }
+#modal-cancel-btn { background-color: #ccc; }
+
+.my-custom-button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.my-custom-button:hover {
+    background-color: #0056b3;
+}
+
+/* استایل ورودی‌های داخل Modal */
+#modal-inputs-container label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+#modal-inputs-container input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+    direction: ltr;
+    text-align: left;
+}
+
+
+
+/* Control Sidebar Styles */
+.control-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0; /* سایدبار از سمت راست شروع می‌شود */
+    width: 280px; /* عرض سایدبار */
+    height: 100%;
+    background-color: #f8f9fa;
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+    z-index: 1002; /* بالاتر از همه چیز، حتی تولبار ویرایش */
+    transform: translateX(100%); /* در حالت پیش‌فرض، کاملاً بیرون از صفحه است */
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* انیمیشن نرم */
+    display: flex;
+}
+
+.control-sidebar.open {
+    transform: translateX(0); /* وقتی کلاس open را دارد، به داخل صفحه می‌آید */
+}
+
+.sidebar-content {
+    padding: 20px;
+    width: 100%;
+    overflow-y: auto; /* اگر محتوا زیاد شد، اسکرول بخورد */
+}
+
+.sidebar-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+.sidebar-button {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: right; /* متن دکمه‌ها راست‌چین */
+    transition: all 0.3s ease;
+}
+
+/* استایل دکمه ویرایش */
+#main-edit-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+#main-edit-btn:hover {
+    background-color: #0056b3;
+}
+#main-edit-btn.is-editing {
+    background-color: var(--danger-color);
+}
+#main-edit-btn.is-editing:hover {
+    background-color: #c82333;
+}
+
+/* استایل دکمه خروجی */
+#export-btn {
+    background-color: var(--success-color);
+    color: white;
+}
+#export-btn:hover {
+    background-color: #218838;
+}
+
+/* دکمه باز و بسته کردن سایدبار */
+.sidebar-toggle-btn {
+    position: absolute;
+    top: 50%;
+    left: -20px; /* کمی بیرون از سایدبار قرار می‌گیرد */
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #333;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.05);
+}
+
+.control-sidebar.open .sidebar-toggle-btn i {
+    transform: rotate(180deg); /* آیکون فلش می‌چرخد */
+}
+
+
+/* Style for the gallery textarea in the modal */
+#modal-inputs-container textarea {
+    width: 100%;
+    min-height: 200px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: 'Courier New', Courier, monospace; /* فونت مناسب برای کد/لینک */
+    box-sizing: border-box;
+    resize: vertical;
+    direction: ltr;
+    text-align: left;
+}
+
+
+
+/* Styles for the dynamic gallery link editor in the modal */
+#gallery-links-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 40vh; /* محدود کردن ارتفاع و فعال کردن اسکرول */
+    overflow-y: auto;
+    padding: 5px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.gallery-link-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.gallery-link-input {
+    flex-grow: 1; /* ورودی تمام فضای موجود را می‌گیرد */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    direction: ltr;
+    text-align: left;
+}
+
+.delete-link-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    flex-shrink: 0; /* جلوگیری از کوچک شدن دکمه */
+    transition: background-color 0.2s;
+}
+
+.delete-link-btn:hover {
+    background-color: #d32f2f;
+}
+
+#add-new-link-btn {
+    background-color: var(--success-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
+#add-new-link-btn:hover {
+    background-color: #218838;
+}
+
+
+/* =============================================== */
+/*         Professional Sidebar Styles V2          */
+/* =============================================== */
+
+/* Main Sidebar Container */
+.control-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 320px; /* عرض بیشتر برای ظاهر حرفه‌ای‌تر */
+    height: 100vh; /* تمام ارتفاع صفحه */
+    background-color: #ffffff; /* پس‌زمینه سفید و تمیز */
+    border-left: 1px solid #e0e0e0; /* یک حاشیه نرم در سمت چپ */
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.08); /* سایه نرم و مدرن */
+    z-index: 1002;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    flex-direction: column; /* چیدمان عمودی برای هدر و محتوا */
+}
+
+.control-sidebar.open {
+    transform: translateX(0);
+}
+
+/* Toggle Button */
+.sidebar-toggle-btn {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%) translateX(-100%); /* قرارگیری دقیق در لبه چپ */
+    width: 30px;
+    height: 60px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #555;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar-toggle-btn:hover {
+    background-color: var(--primary-color, #007bff);
+    color: white;
+}
+
+.control-sidebar.open .sidebar-toggle-btn i {
+    transition: transform 0.4s ease;
+    transform: rotate(180deg);
+}
+
+/* Sidebar Header & Tabs */
+.sidebar-header {
+    display: flex;
+    flex-shrink: 0; /* جلوگیری از کوچک شدن هدر */
+    border-bottom: 1px solid #e0e0e0;
+    padding: 5px;
+    background-color: #f7f7f7;
+}
+
+.sidebar-tab-btn {
+    flex: 1;
+    padding: 12px 10px;
+    border: none;
+    background-color: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600; /* کمی ضخیم‌تر */
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.sidebar-tab-btn:hover {
+    background-color: #e9e9e9;
+    color: #111;
+}
+
+.sidebar-tab-btn.active {
+    background-color: #ffffff;
+    color: var(--primary-color, #007bff);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* Sidebar Content Area */
+.sidebar-content {
+    flex-grow: 1; /* تمام فضای باقی‌مانده را بگیرد */
+    overflow-y: auto; /* اسکرول فقط برای این بخش */
+}
+
+.sidebar-tab-content {
+    display: none;
+    padding: 25px; /* پدینگ بیشتر */
+}
+
+.sidebar-tab-content.active {
+    display: block;
+}
+
+.sidebar-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+
+/* Buttons inside Sidebar */
+.sidebar-button {
+    display: flex; /* برای هم‌ترازی آیکون و متن */
+    align-items: center;
+    gap: 10px; /* فاصله بین آیکون و متن */
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: right;
+    transition: all 0.3s ease;
+}
+
+.sidebar-button i {
+    font-size: 18px;
+}
+
+/* Color Picker Styles */
+#color-picker-container {
+    display: flex;
+    flex-direction: column;
+    gap: 18px; /* فاصله بیشتر بین آیتم‌ها */
+}
+
+.color-picker-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.color-picker-item label {
+    font-size: 15px;
+    color: #444;
+    text-transform: capitalize; /* نمایش بهتر نام متغیر */
+}
+
+.color-picker-item input[type="color"] {
+    -webkit-appearance: none;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: transparent;
+    padding: 0;
+    transition: transform 0.2s ease;
+}
+.color-picker-item input[type="color"]:hover {
+    transform: scale(1.1);
+}
+.color-picker-item input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+.color-picker-item input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
+}
+
+/* Media Query for smaller screens */
+@media (max-width: 768px) {
+    .control-sidebar {
+        width: 280px; /* در موبایل کمی باریک‌تر شود */
+    }
+}
+
+
+
+
+/* در فایل edditorstyle.css */
+
+.sidebar-setting-item {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.sidebar-setting-item label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+.sidebar-setting-item input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+.sidebar-setting-item small {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #777;
+}
+
+
